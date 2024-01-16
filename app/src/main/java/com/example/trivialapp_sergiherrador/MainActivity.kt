@@ -3,17 +3,27 @@ package com.example.trivialapp_sergiherrador
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.trivialapp_sergiherrador.View.MenuScreen
+import com.example.trivialapp_sergiherrador.View.SettingsScreen
+import com.example.trivialapp_sergiherrador.ViewModel.GameViewModel
+import com.example.trivialapp_sergiherrador.ViewModel.MenuViewModel
+import com.example.trivialapp_sergiherrador.ViewModel.SettingsViewModel
 import com.example.trivialapp_sergiherrador.ui.theme.TrivialApp_SergiHerradorTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        val menuMainViewModel by viewModels<MenuViewModel>()
+        val gameMainViewModel by viewModels<GameViewModel>()
+        val settingsViewModel by viewModels<SettingsViewModel>()
+
         super.onCreate(savedInstanceState)
         setContent {
             TrivialApp_SergiHerradorTheme {
@@ -22,7 +32,18 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    val navigationController = rememberNavController()
+                    NavHost(
+                        navController = navigationController,
+                        startDestination = Routes.MenuScreen.route
+                    ) {
+                        composable(Routes.MenuScreen.route) { MenuScreen(navigationController, menuMainViewModel) }
+                        composable(Routes.SettingsScreen.route) { SettingsScreen(navigationController, settingsViewModel) }
+
+                        /*composable(Routes.Pantalla2.route) { Screen2(navigationController) }
+                        composable(Routes.Pantalla3.route) { Screen3(navigationController) }*/
+                    }
+
                 }
             }
         }
