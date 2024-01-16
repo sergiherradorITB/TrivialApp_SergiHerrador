@@ -1,5 +1,6 @@
 package com.example.trivialapp_sergiherrador.View
 
+import android.graphics.LinearGradient
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -23,6 +24,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -39,14 +42,22 @@ import com.example.trivialapp_sergiherrador.ViewModel.MenuViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MenuScreen(navController: NavHostController, menuMainViewModel: MenuViewModel) {
+    // Define el gradiente lineal
+    val gradient = Brush.linearGradient(
+        colors = listOf(
+            Color.Blue,
+            Color.Cyan,
+            Color.White
+        ),
+        start = Offset(0f, 0f),
+        end = Offset.Infinite
+    )
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .paint(
-                painterResource(id = R.drawable.bluebackground),
-                contentScale = ContentScale.FillBounds
-            ),
+            .background(brush = gradient),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -91,7 +102,7 @@ fun MenuScreen(navController: NavHostController, menuMainViewModel: MenuViewMode
 
         // Botón de Help
         Button(
-            onClick = { menuMainViewModel.modifyShow(true)},
+            onClick = { menuMainViewModel.modifyShow(true) },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.Magenta
             ),
@@ -100,7 +111,7 @@ fun MenuScreen(navController: NavHostController, menuMainViewModel: MenuViewMode
         ) {
             Text(text = "Help", fontSize = 18.sp, fontWeight = FontWeight.Bold)
         }
-        MyDialog(menuMainViewModel.show) { menuMainViewModel.modifyShow(false)}
+        MyDialog(menuMainViewModel.show) { menuMainViewModel.modifyShow(false) }
     }
 }
 
@@ -118,19 +129,14 @@ fun MyDialog(show: Boolean, onDismiss: () -> Unit) {
             ) {
                 Text(
                     text = "Bienvenido al Trivial ITB hecho por Sergi \n \n" +
-                            "Puedes escoger entre tres modos: \n" +
-                            "Easy: Tienes 8 intentos y las palabras más fáciles \n" +
-                            "Medium: Tienes 6 intentos y las palabras de dificultad ni fácil ni díficill \n" +
-                            "Hard: Tienes 4 intentos y las palabras más díficiles \n \n" +
-                            "Las normas son: \n" +
-                            "Se genera una palabra aleatoria y debes de adivinarla tocando las letras. " +
-                            "Una vez pulsada una letra ya es usada se bloqueará en otro color " +
-                            "Cada vez que falles se sumará una parte al dibujo del hangman y por ende se te restará un intento/vida\n" +
-                            "Si aciertas suma la letra y no resta vida \n\n" +
-                            "Si se te agotan los intentos o la adivinas irás a otra pantalla para poder escoger: \n" +
-                            "1- Volver a jugar con la misma dificultad y otra palabra\n" +
-                            "2- Volver al menú que te permitirá volver al menú y hacer lo que quieras dentro de sus posibilidades\n" +
-                            "A disfrutar!! ",
+                            "Por defecto los parametros son: \n" +
+                            "Dificultad: MEDIUM, Rondas: 10, Tiempo por ronda 10 segundos, \n \n" +
+                            "Tienes que ir a ajustes para cambiar parametros \n" +
+                            "Easy: Las preguntas son más sencillas \n" +
+                            "Medium: Las preguntas son de dificultad media \n" +
+                            "Hard:  Las preguntas son de dificultad díficil\n \n" +
+                            "Parametros que puedes cambiar: \n" +
+                            "Dificultad, Las rondas, Tiempo por ronda, Dark Mode",
                     fontSize = 15.sp
                 )
 

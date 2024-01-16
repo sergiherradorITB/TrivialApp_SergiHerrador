@@ -23,11 +23,14 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Slider
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -129,24 +132,52 @@ fun SettingsScreen(navController: NavHostController, settingsViewModel: Settings
             var sliderValue by remember { mutableStateOf(0f) }
             var finishValue by remember { mutableStateOf("") }
 
-            Slider(
-                value = sliderValue,
-                onValueChange = { sliderValue = it },
-                onValueChangeFinished = {
-                    finishValue = "%.0f".format(sliderValue)
-                },
-                valueRange = 0f..120f,
-                steps = 119
-            )
+            Row {
+                Text(text = "Temps: ")
+                Column {
+                    Slider(
+                        value = sliderValue,
+                        onValueChange = { sliderValue = it },
+                        onValueChangeFinished = {
+                            finishValue = "%.0f".format(sliderValue)
+                        },
+                        valueRange = 0f..120f,
+                        steps = 119
+                    )
 
-            Text(
-                text = if (finishValue != "") {
-                    "$finishValue seconds"
-                } else {
-                    ""
+                    Text(
+                        text = if (finishValue != "") {
+                            "$finishValue seconds"
+                        } else {
+                            ""
+                        }
+                    )
+
                 }
-            )
-
+            }
+            // Dark mode
+            Row(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = "Dark mode",
+                    modifier = Modifier.fillMaxHeight(0.2f)
+                )
+                var state by rememberSaveable { mutableStateOf(true) }
+                Switch(
+                    checked = state,
+                    onCheckedChange = { state = !state },
+                    colors = SwitchDefaults.colors(
+                        uncheckedThumbColor = Color.Red,
+                        checkedThumbColor = Color.Green
+                    ),
+                    modifier = Modifier.fillMaxHeight(0.2f)
+                )
+            }
+            Button(onClick = {  navController.navigate("MenuScreen") },
+                modifier = Modifier.fillMaxWidth()) {
+                Text(text = "Volver al menú")
+            }
         }
 
     }
