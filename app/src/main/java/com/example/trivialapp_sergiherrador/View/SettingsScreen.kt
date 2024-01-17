@@ -51,8 +51,6 @@ import com.example.trivialapp_sergiherrador.ViewModel.SettingsViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(navController: NavHostController, settingsViewModel: SettingsViewModel) {
-    var selectedText by remember { mutableStateOf("Difficulty") }
-    var expanded by remember { mutableStateOf(false) }
     val difficulties = listOf("Easy", "Medium", "Hard")
 
     Row(Modifier.fillMaxSize()) {
@@ -73,18 +71,18 @@ fun SettingsScreen(navController: NavHostController, settingsViewModel: Settings
                     .background(Color(255f / 255, 0f / 255, 238f / 255, 0.1f))
             ) {
                 OutlinedTextField(
-                    value = selectedText,
-                    onValueChange = { selectedText = it },
+                    value = settingsViewModel.dificultad,
+                    onValueChange = { settingsViewModel.modifyDifficulty(it) },
                     enabled = false,
                     readOnly = true,
                     modifier = Modifier
-                        .clickable { expanded = true }
+                        .clickable { settingsViewModel.modifyExpanded(true) }
                         .fillMaxWidth()
                         .background(Color(255f / 255, 0f / 255, 238f / 255, 0.1f))
                 )
                 DropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false },
+                    expanded = settingsViewModel.expanded,
+                    onDismissRequest = { settingsViewModel.modifyExpanded(false) },
                     modifier = Modifier
                         .background(Color(255f / 255, 0f / 255, 238f / 255, 0.1f))
                         .fillMaxWidth()
@@ -93,15 +91,13 @@ fun SettingsScreen(navController: NavHostController, settingsViewModel: Settings
                         DropdownMenuItem(
                             text = { Text(text = difficulty) },
                             onClick = {
-                                expanded = false
-                                selectedText = difficulty
+                                settingsViewModel.modifyExpanded(false)
+                                settingsViewModel.modifyDifficulty(difficulty)
                             }
                         )
                     }
                 }
             }
-
-            var selectedRounds by remember { mutableStateOf(5) }
 
             Row {
                 Text(text = "Rounds: ")
@@ -110,16 +106,16 @@ fun SettingsScreen(navController: NavHostController, settingsViewModel: Settings
                     (roundsAvailable).forEach { rounds ->
                         Row {
                             Checkbox(
-                                checked = selectedRounds == rounds,
+                                checked = settingsViewModel.rondas == rounds,
                                 onCheckedChange = {
-                                    selectedRounds = if (it) rounds else selectedRounds
+                                    settingsViewModel.modifyRondas(if (it) rounds else settingsViewModel.rondas)
                                 },
                                 modifier = Modifier.padding(4.dp)
                             )
                             Text(
                                 text = "$rounds",
                                 modifier = Modifier.clickable {
-                                    selectedRounds = rounds
+                                    settingsViewModel.modifyRondas(rounds)
                                 }
                             )
                         }
@@ -129,25 +125,23 @@ fun SettingsScreen(navController: NavHostController, settingsViewModel: Settings
 
             }
 
-            var sliderValue by remember { mutableStateOf(0f) }
-            var finishValue by remember { mutableStateOf("") }
 
             Row {
                 Text(text = "Temps: ")
                 Column {
                     Slider(
-                        value = sliderValue,
-                        onValueChange = { sliderValue = it },
+                        value = settingsViewModel.sliderValue,
+                        onValueChange = { settingsViewModel.modifySliderValue(it)},
                         onValueChangeFinished = {
-                            finishValue = "%.0f".format(sliderValue)
+                            settingsViewModel.modifyFinishSlider("%.0f".format(settingsViewModel.sliderValue))
                         },
                         valueRange = 0f..120f,
                         steps = 119
                     )
 
                     Text(
-                        text = if (finishValue != "") {
-                            "$finishValue seconds"
+                        text = if (settingsViewModel.finishSliderValue != "") {
+                            "${settingsViewModel.finishSliderValue} seconds"
                         } else {
                             ""
                         }
@@ -163,10 +157,9 @@ fun SettingsScreen(navController: NavHostController, settingsViewModel: Settings
                     text = "Dark mode",
                     modifier = Modifier.fillMaxHeight(0.2f)
                 )
-                var state by rememberSaveable { mutableStateOf(true) }
                 Switch(
-                    checked = state,
-                    onCheckedChange = { state = !state },
+                    checked = settingsViewModel.estadoSwitch,
+                    onCheckedChange = { settingsViewModel.modifyEstadoSwitch(!settingsViewModel.estadoSwitch) },
                     colors = SwitchDefaults.colors(
                         uncheckedThumbColor = Color.Red,
                         checkedThumbColor = Color.Green
