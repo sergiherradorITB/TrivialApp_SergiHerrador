@@ -40,19 +40,19 @@ fun ResultScreen(
         )
 
         Text(
-            text = "Aciertos: $correctAnswers",
+            text = "Aciertos: ${gameViewModel.aciertos}",
             fontSize = 20.sp,
             modifier = Modifier.padding(bottom = 8.dp)
         )
 
         Text(
-            text = "Fallos: ${ - correctAnswers}",
+            text = "Fallos: ${ gameViewModel.fallos}",
             fontSize = 20.sp,
             modifier = Modifier.padding(bottom = 8.dp)
         )
 
         Button(
-            onClick = { navController.navigate("MenuScreen") },
+            onClick = { gameViewModel.resetGame(); navController.navigate("MenuScreen") },
             modifier = Modifier.padding(top = 16.dp)
         ) {
             Text(text = "Ir a Menu")

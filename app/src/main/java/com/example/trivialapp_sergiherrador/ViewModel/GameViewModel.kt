@@ -40,7 +40,7 @@ class GameViewModel : ViewModel() {
     // Método para obtener la pregunta actual
     fun getCurrentQuestion(): Question {
         // Asegurarse de que el índice esté dentro de los límites de la lista
-        return if (currentQuestionIndex >= 0 && actualRound < allQuestions.size) {
+        return if (currentQuestionIndex >= 0 && currentQuestionIndex < allQuestions.size) {
             allQuestions[currentQuestionIndex]
         } else {
             // En caso de que el índice sea incorrecto, devolver una pregunta vacía o manejar el error según tu lógica
@@ -51,6 +51,7 @@ class GameViewModel : ViewModel() {
     fun moveToNextQuestion() {
         actualRound++
         isCorrectAnswer = false
+        currentQuestionIndex++
 
         if (actualRound >= allQuestions.size) {
             // El juego ha terminado
@@ -61,7 +62,7 @@ class GameViewModel : ViewModel() {
     fun checkAnswer(answer: Question.Answer) {
         isCorrectAnswer = answer.isCorrect
         if (isCorrectAnswer) {
-            aciertos
+            aciertos++
         } else {
             fallos++
         }
@@ -74,5 +75,6 @@ class GameViewModel : ViewModel() {
         gameFinished = false
         fallos = 0
         aciertos = 0
+        currentQuestionIndex = 0
     }
 }
