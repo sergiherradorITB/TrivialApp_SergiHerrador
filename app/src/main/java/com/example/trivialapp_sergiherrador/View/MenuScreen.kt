@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavHostController
 import com.example.trivialapp_sergiherrador.R
+import com.example.trivialapp_sergiherrador.Routes
 import com.example.trivialapp_sergiherrador.ViewModel.MenuViewModel
 
 
@@ -73,11 +74,7 @@ fun MenuScreen(navController: NavHostController, menuMainViewModel: MenuViewMode
 
         // Botón de Play
         Button(
-            onClick = {
-                Toast.makeText(context, "Escoge una dificultad válida!", Toast.LENGTH_SHORT)
-                    .show()
-                // navController.navigate(Routes.GameScreen.createRoute(selectedText))
-            },
+            onClick = { navController.navigate("GameScreen") },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.Magenta
             ),
@@ -102,7 +99,8 @@ fun MenuScreen(navController: NavHostController, menuMainViewModel: MenuViewMode
 
         // Botón de Help
         Button(
-            onClick = { menuMainViewModel.modifyShow(true) },
+            onClick = {
+                menuMainViewModel.modifyShow(true) },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.Magenta
             ),

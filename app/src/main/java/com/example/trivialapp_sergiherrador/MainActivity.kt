@@ -11,10 +11,13 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.trivialapp_sergiherrador.View.GameScreen
 import com.example.trivialapp_sergiherrador.View.MenuScreen
+import com.example.trivialapp_sergiherrador.View.ResultScreen
 import com.example.trivialapp_sergiherrador.View.SettingsScreen
 import com.example.trivialapp_sergiherrador.ViewModel.GameViewModel
 import com.example.trivialapp_sergiherrador.ViewModel.MenuViewModel
+import com.example.trivialapp_sergiherrador.ViewModel.ResultViewModel
 import com.example.trivialapp_sergiherrador.ViewModel.SettingsViewModel
 import com.example.trivialapp_sergiherrador.ui.theme.TrivialApp_SergiHerradorTheme
 
@@ -23,6 +26,8 @@ class MainActivity : ComponentActivity() {
         val menuMainViewModel by viewModels<MenuViewModel>()
         val gameMainViewModel by viewModels<GameViewModel>()
         val settingsViewModel by viewModels<SettingsViewModel>()
+        val resultViewModel by viewModels<ResultViewModel>()
+
 
         super.onCreate(savedInstanceState)
         setContent {
@@ -39,6 +44,13 @@ class MainActivity : ComponentActivity() {
                     ) {
                         composable(Routes.MenuScreen.route) { MenuScreen(navigationController, menuMainViewModel) }
                         composable(Routes.SettingsScreen.route) { SettingsScreen(navigationController, settingsViewModel) }
+                        composable(Routes.GameScreen.route) { GameScreen(navigationController,gameMainViewModel ,settingsViewModel) }
+                        composable(Routes.ResultScreen.route) { ResultScreen(
+                            navController = navigationController,
+                            gameMainViewModel,
+                            settingsViewModel,
+                            resultViewModel
+                        )}
 
                         /*composable(Routes.Pantalla2.route) { Screen2(navigationController) }
                         composable(Routes.Pantalla3.route) { Screen3(navigationController) }*/

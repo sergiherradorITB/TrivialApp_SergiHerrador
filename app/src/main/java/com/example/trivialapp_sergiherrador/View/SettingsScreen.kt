@@ -146,7 +146,6 @@ fun SettingsScreen(navController: NavHostController, settingsViewModel: Settings
                             ""
                         }
                     )
-
                 }
             }
             // Dark mode
