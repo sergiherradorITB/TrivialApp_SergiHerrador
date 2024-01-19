@@ -7,6 +7,8 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -21,14 +23,16 @@ import com.example.trivialapp_sergiherrador.ViewModel.ResultViewModel
 import com.example.trivialapp_sergiherrador.ViewModel.SettingsViewModel
 import com.example.trivialapp_sergiherrador.ui.theme.TrivialApp_SergiHerradorTheme
 
+
 class MainActivity : ComponentActivity() {
+
+    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
+
         val menuMainViewModel by viewModels<MenuViewModel>()
         val gameMainViewModel by viewModels<GameViewModel>()
         val settingsViewModel by viewModels<SettingsViewModel>()
         val resultViewModel by viewModels<ResultViewModel>()
-
-
         super.onCreate(savedInstanceState)
         setContent {
             TrivialApp_SergiHerradorTheme {
@@ -36,24 +40,47 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
+
                 ) {
+                    val windowSize = calculateWindowSizeClass(this)
                     val navigationController = rememberNavController()
                     NavHost(
                         navController = navigationController,
                         startDestination = Routes.MenuScreen.route
                     ) {
-                        composable(Routes.MenuScreen.route) { MenuScreen(navigationController, menuMainViewModel, settingsViewModel) }
-                        composable(Routes.SettingsScreen.route) { SettingsScreen(navigationController, settingsViewModel) }
-                        composable(Routes.GameScreen.route) { GameScreen(navigationController,gameMainViewModel ,settingsViewModel) }
-                        composable(Routes.ResultScreen.route) { ResultScreen(
-                            navController = navigationController,
-                            gameMainViewModel,
-                            resultViewModel,
-                            settingsViewModel
-                        )}
+                        composable(Routes.MenuScreen.route) {
+                            MenuScreen(
+                                navigationController,
+                                menuMainViewModel,
+                                settingsViewModel,
+                                windowSize
 
-                        /*composable(Routes.Pantalla2.route) { Screen2(navigationController) }
-                        composable(Routes.Pantalla3.route) { Screen3(navigationController) }*/
+                            )
+                        }
+                        composable(Routes.SettingsScreen.route) {
+                            SettingsScreen(
+                                navigationController,
+                                settingsViewModel,
+                                windowSize
+                            )
+                        }
+                        composable(Routes.GameScreen.route) {
+                            GameScreen(
+                                navigationController,
+                                gameMainViewModel,
+                                settingsViewModel,
+                                windowSize
+                            )
+                        }
+                        composable(Routes.ResultScreen.route) {
+                            ResultScreen(
+                                navController = navigationController,
+                                gameMainViewModel,
+                                resultViewModel,
+                                settingsViewModel
+                            )
+                        }
+
                     }
 
                 }

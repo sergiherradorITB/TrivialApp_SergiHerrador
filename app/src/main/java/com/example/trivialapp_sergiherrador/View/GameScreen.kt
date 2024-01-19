@@ -3,24 +3,23 @@ package com.example.trivialapp_sergiherrador.View
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -28,14 +27,13 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.trivialapp_sergiherrador.ViewModel.GameViewModel
 import com.example.trivialapp_sergiherrador.ViewModel.SettingsViewModel
-import kotlinx.coroutines.delay
-import kotlin.time.Duration.Companion.seconds
 
 @Composable
 fun GameScreen(
     navController: NavHostController,
     gameViewModel: GameViewModel,
-    settingsViewModel: SettingsViewModel
+    settingsViewModel: SettingsViewModel,
+    windowSize: WindowSizeClass
 ) {
     val currentQuestion = gameViewModel.getCurrentQuestion(settingsViewModel)
     val respuestas = currentQuestion.answers
@@ -48,6 +46,7 @@ fun GameScreen(
         // Mostrar la pantalla del juego normalmente
         Column(
             modifier = Modifier
+                .verticalScroll(rememberScrollState())
                 .background(brush = settingsViewModel.getGradient())
         ) {
             Column(
@@ -58,7 +57,8 @@ fun GameScreen(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Text(text = "Round " + gameViewModel.actualRound + "/" + settingsViewModel.rondas,
+                Text(
+                    text = "Round " + gameViewModel.actualRound + "/" + settingsViewModel.rondas,
                     color = if (settingsViewModel.darkMode) Color.White else Color.Black
 
                 )
@@ -68,77 +68,186 @@ fun GameScreen(
                     fontSize = 20.sp,
                     color = if (settingsViewModel.darkMode) Color.White else Color.Black
                 )
-                Image(
-                    modifier = Modifier.fillMaxSize(1f),
-                    painter = painterResource(id = currentQuestion.questionImage),
-                    contentDescription = currentQuestion.questionName
-                )
-            }
 
-            Column(
-                modifier = Modifier
-                    .fillMaxHeight(0.75f)
-                    .fillMaxWidth(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    // Utilizar los textos de las respuestas en los botones
-                    Button(
-                        onClick = { gameViewModel.checkAnswer(respuestas[0], settingsViewModel) },
+            }
+            // Main Content
+            if (windowSize.widthSizeClass >= WindowWidthSizeClass.Medium) {
+                Row(modifier = Modifier.fillMaxSize()) {
+                    // Image on the left
+                    Image(
                         modifier = Modifier
-                            .weight(0.4f)
-                            .padding(end = 8.dp)
-                    ) {
-                        Text(
-                            text = respuestas[0].answerText,
-                            color = if (settingsViewModel.darkMode) Color.White else Color.Black
-                        )
-                    }
-                    Button(
-                        onClick = { gameViewModel.checkAnswer(respuestas[1], settingsViewModel) },
+                            .fillMaxWidth(0.4f)
+                            .scale(1f, 1f)
+                            .fillMaxHeight(1f),
+                        painter = painterResource(id = currentQuestion.questionImage),
+                        contentDescription = currentQuestion.questionName
+                    )
+
+                    // Questions Column
+                    Column(
                         modifier = Modifier
-                            .weight(0.4f)
-                            .padding(end = 8.dp)
+                            .weight(0.6f)
+                            .fillMaxHeight(1f)
+                            .padding(horizontal = 16.dp),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text(
-                            text = respuestas[1].answerText,
-                            color = if (settingsViewModel.darkMode) Color.White else Color.Black
-                        )
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp),
+                            horizontalArrangement = Arrangement.SpaceEvenly
+                        ) {
+                            // Utilizar los textos de las respuestas en los botones
+                            for (i in 0 until 2) {
+                                Button(
+                                    onClick = {
+                                        gameViewModel.checkAnswer(
+                                            respuestas[i],
+                                            settingsViewModel
+                                        )
+                                    },
+                                    modifier = Modifier
+                                        .weight(0.4f)
+                                        .padding(end = 8.dp)
+                                ) {
+                                    Text(
+                                        text = respuestas[i].answerText,
+                                        color = if (settingsViewModel.darkMode) Color.White else Color.Black
+                                    )
+                                }
+                            }
+                        }
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp),
+                            horizontalArrangement = Arrangement.SpaceEvenly
+                        ) {
+                            for (i in 2 until 4) {
+                                Button(
+                                    onClick = {
+                                        gameViewModel.checkAnswer(
+                                            respuestas[i],
+                                            settingsViewModel
+                                        )
+                                    },
+                                    modifier = Modifier
+                                        .weight(0.4f)
+                                        .padding(end = 8.dp)
+                                ) {
+                                    Text(
+                                        text = respuestas[i].answerText,
+                                        color = if (settingsViewModel.darkMode) Color.White else Color.Black
+                                    )
+                                }
+                            }
+                        }
                     }
                 }
-                Row(
+            } else {
+                Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    horizontalArrangement = Arrangement.SpaceEvenly
+                        .fillMaxHeight(0.4f),
+                    contentAlignment = Alignment.Center
+
+                )
+                {
+                    Image(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .scale(1f, 1f),
+                        painter = painterResource(id = currentQuestion.questionImage),
+                        contentDescription = currentQuestion.questionName
+                    )
+                }
+                Column(
+                    modifier = Modifier
+                        .fillMaxHeight(0.75f)
+                        .padding(top = 16.dp)
+                        .fillMaxWidth(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Button(
-                        onClick = { gameViewModel.checkAnswer(respuestas[2], settingsViewModel) },
+                    Row(
                         modifier = Modifier
-                            .weight(0.4f)
-                            .padding(end = 8.dp)
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                        horizontalArrangement = Arrangement.SpaceEvenly
                     ) {
-                        Text(
-                            text = respuestas[2].answerText,
-                            color = if (settingsViewModel.darkMode) Color.White else Color.Black
-                        )
+                        // Utilizar los textos de las respuestas en los botones
+                        Button(
+                            onClick = {
+                                gameViewModel.checkAnswer(
+                                    respuestas[0],
+                                    settingsViewModel
+                                )
+                            },
+                            modifier = Modifier
+                                .weight(0.4f)
+                                .padding(end = 8.dp)
+                        ) {
+                            Text(
+                                text = respuestas[0].answerText,
+                                color = if (settingsViewModel.darkMode) Color.White else Color.Black
+                            )
+                        }
+                        Button(
+                            onClick = {
+                                gameViewModel.checkAnswer(
+                                    respuestas[1],
+                                    settingsViewModel
+                                )
+                            },
+                            modifier = Modifier
+                                .weight(0.4f)
+                                .padding(end = 8.dp)
+                        ) {
+                            Text(
+                                text = respuestas[1].answerText,
+                                color = if (settingsViewModel.darkMode) Color.White else Color.Black
+                            )
+                        }
                     }
-                    Button(
-                        onClick = { gameViewModel.checkAnswer(respuestas[3], settingsViewModel) },
+                    Row(
                         modifier = Modifier
-                            .weight(0.4f)
-                            .padding(end = 8.dp)
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                        horizontalArrangement = Arrangement.SpaceEvenly
                     ) {
-                        Text(
-                            text = respuestas[3].answerText,
-                            color = if (settingsViewModel.darkMode) Color.White else Color.Black
-                        )
+                        Button(
+                            onClick = {
+                                gameViewModel.checkAnswer(
+                                    respuestas[2],
+                                    settingsViewModel
+                                )
+                            },
+                            modifier = Modifier
+                                .weight(0.4f)
+                                .padding(end = 8.dp)
+                        ) {
+                            Text(
+                                text = respuestas[2].answerText,
+                                color = if (settingsViewModel.darkMode) Color.White else Color.Black
+                            )
+                        }
+                        Button(
+                            onClick = {
+                                gameViewModel.checkAnswer(
+                                    respuestas[3],
+                                    settingsViewModel
+                                )
+                            },
+                            modifier = Modifier
+                                .weight(0.4f)
+                                .padding(end = 8.dp)
+                        ) {
+                            Text(
+                                text = respuestas[3].answerText,
+                                color = if (settingsViewModel.darkMode) Color.White else Color.Black
+                            )
+                        }
                     }
                 }
             }

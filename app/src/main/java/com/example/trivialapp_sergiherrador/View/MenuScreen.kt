@@ -1,11 +1,10 @@
 package com.example.trivialapp_sergiherrador.View
 
-import android.graphics.LinearGradient
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,20 +13,13 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.paint
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -36,15 +28,17 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavHostController
 import com.example.trivialapp_sergiherrador.R
-import com.example.trivialapp_sergiherrador.Routes
 import com.example.trivialapp_sergiherrador.ViewModel.MenuViewModel
 import com.example.trivialapp_sergiherrador.ViewModel.SettingsViewModel
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MenuScreen(navController: NavHostController, menuMainViewModel: MenuViewModel, settingsViewModel: SettingsViewModel) {
-
+fun MenuScreen(
+    navController: NavHostController,
+    menuMainViewModel: MenuViewModel,
+    settingsViewModel: SettingsViewModel,
+    windowSize: WindowSizeClass
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -63,43 +57,91 @@ fun MenuScreen(navController: NavHostController, menuMainViewModel: MenuViewMode
         )
         val context = LocalContext.current
 
-        // Botón de Play
-        Button(
-            onClick = { navController.navigate("GameScreen") },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Magenta
-            ),
-            modifier = Modifier
-                .fillMaxWidth(0.5f)
-                .padding(top = 20.dp)
-        ) {
-            Text(text = "Play", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+        if (windowSize.widthSizeClass >= WindowWidthSizeClass.Medium) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 20.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                Button(
+                    onClick = { navController.navigate("GameScreen") },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Magenta
+                    ),
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth(0.2f)
+                ) {
+                    Text(text = "Play", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                }
+
+                Button(
+                    onClick = { navController.navigate("SettingsScreen") },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Magenta
+                    ),
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth(0.2f)
+                ) {
+                    Text(text = "Settings", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                }
+
+                Button(
+                    onClick = {
+                        menuMainViewModel.modifyShow(true)
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Magenta
+                    ),
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth(0.2f)
+                ) {
+                    Text(text = "Help", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                }
+            }
+
+        } else {
+            // Use Column for buttons in other cases
+            Button(
+                onClick = { navController.navigate("GameScreen") },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Magenta
+                ),
+                modifier = Modifier
+                    .fillMaxWidth(0.5f)
+                    .padding(top = 20.dp)
+            ) {
+                Text(text = "Play", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+            }
+
+            Button(
+                onClick = { navController.navigate("SettingsScreen") },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Magenta
+                ),
+                modifier = Modifier
+                    .fillMaxWidth(0.5f)
+            ) {
+                Text(text = "Settings", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+            }
+
+            Button(
+                onClick = {
+                    menuMainViewModel.modifyShow(true)
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Magenta
+                ),
+                modifier = Modifier
+                    .fillMaxWidth(0.5f)
+            ) {
+                Text(text = "Help", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+            }
         }
 
-        // Botón de Settings
-        Button(
-            onClick = { navController.navigate("SettingsScreen") },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Magenta
-            ),
-            modifier = Modifier
-                .fillMaxWidth(0.5f),
-        ) {
-            Text(text = "Settings", fontSize = 18.sp, fontWeight = FontWeight.Bold)
-        }
-
-        // Botón de Help
-        Button(
-            onClick = {
-                menuMainViewModel.modifyShow(true) },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Magenta
-            ),
-            modifier = Modifier
-                .fillMaxWidth(0.5f),
-        ) {
-            Text(text = "Help", fontSize = 18.sp, fontWeight = FontWeight.Bold)
-        }
         MyDialog(menuMainViewModel.show) { menuMainViewModel.modifyShow(false) }
     }
 }
