@@ -38,27 +38,18 @@ import androidx.navigation.NavHostController
 import com.example.trivialapp_sergiherrador.R
 import com.example.trivialapp_sergiherrador.Routes
 import com.example.trivialapp_sergiherrador.ViewModel.MenuViewModel
+import com.example.trivialapp_sergiherrador.ViewModel.SettingsViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MenuScreen(navController: NavHostController, menuMainViewModel: MenuViewModel) {
-    // Define el gradiente lineal
-    val gradient = Brush.linearGradient(
-        colors = listOf(
-            Color.Blue,
-            Color.Cyan,
-            Color.White
-        ),
-        start = Offset(0f, 0f),
-        end = Offset.Infinite
-    )
+fun MenuScreen(navController: NavHostController, menuMainViewModel: MenuViewModel, settingsViewModel: SettingsViewModel) {
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .background(brush = gradient),
+            .background(brush = settingsViewModel.getGradient()),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

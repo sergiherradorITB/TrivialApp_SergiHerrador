@@ -1,6 +1,7 @@
 package com.example.trivialapp_sergiherrador.View
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,14 +14,22 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.trivialapp_sergiherrador.ViewModel.GameViewModel
 import com.example.trivialapp_sergiherrador.ViewModel.SettingsViewModel
+import kotlinx.coroutines.delay
+import kotlin.time.Duration.Companion.seconds
 
 @Composable
 fun GameScreen(
@@ -37,19 +46,27 @@ fun GameScreen(
         navController.navigate("ResultScreen")
     } else {
         // Mostrar la pantalla del juego normalmente
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(
+            modifier = Modifier
+                .background(brush = settingsViewModel.getGradient())
+        ) {
             Column(
                 modifier = Modifier
                     .fillMaxHeight(0.4f)
+                    .padding(16.dp)
                     .fillMaxWidth(),
                 verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Text(text = "Round " + gameViewModel.actualRound + "/" + settingsViewModel.rondas)
+                Text(text = "Round " + gameViewModel.actualRound + "/" + settingsViewModel.rondas,
+                    color = if (settingsViewModel.darkMode) Color.White else Color.Black
+
+                )
                 Text(
                     text = currentQuestion.questionText,
                     modifier = Modifier.fillMaxHeight(0.6f),
-                    fontSize = 20.sp
+                    fontSize = 20.sp,
+                    color = if (settingsViewModel.darkMode) Color.White else Color.Black
                 )
                 Image(
                     modifier = Modifier.fillMaxSize(1f),
@@ -78,15 +95,21 @@ fun GameScreen(
                             .weight(0.4f)
                             .padding(end = 8.dp)
                     ) {
-                        Text(text = respuestas[0].answerText)
+                        Text(
+                            text = respuestas[0].answerText,
+                            color = if (settingsViewModel.darkMode) Color.White else Color.Black
+                        )
                     }
                     Button(
-                        onClick = { gameViewModel.checkAnswer(respuestas[1],settingsViewModel) },
+                        onClick = { gameViewModel.checkAnswer(respuestas[1], settingsViewModel) },
                         modifier = Modifier
                             .weight(0.4f)
                             .padding(end = 8.dp)
                     ) {
-                        Text(text = respuestas[1].answerText)
+                        Text(
+                            text = respuestas[1].answerText,
+                            color = if (settingsViewModel.darkMode) Color.White else Color.Black
+                        )
                     }
                 }
                 Row(
@@ -96,24 +119,29 @@ fun GameScreen(
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
                     Button(
-                        onClick = { gameViewModel.checkAnswer(respuestas[2],settingsViewModel) },
+                        onClick = { gameViewModel.checkAnswer(respuestas[2], settingsViewModel) },
                         modifier = Modifier
                             .weight(0.4f)
                             .padding(end = 8.dp)
                     ) {
-                        Text(text = respuestas[2].answerText)
+                        Text(
+                            text = respuestas[2].answerText,
+                            color = if (settingsViewModel.darkMode) Color.White else Color.Black
+                        )
                     }
                     Button(
-                        onClick = { gameViewModel.checkAnswer(respuestas[3],settingsViewModel) },
+                        onClick = { gameViewModel.checkAnswer(respuestas[3], settingsViewModel) },
                         modifier = Modifier
                             .weight(0.4f)
                             .padding(end = 8.dp)
                     ) {
-                        Text(text = respuestas[3].answerText)
+                        Text(
+                            text = respuestas[3].answerText,
+                            color = if (settingsViewModel.darkMode) Color.White else Color.Black
+                        )
                     }
                 }
             }
-
         }
     }
 }
