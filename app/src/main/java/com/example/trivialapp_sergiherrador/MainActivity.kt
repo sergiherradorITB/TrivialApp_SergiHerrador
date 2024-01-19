@@ -48,7 +48,6 @@ class MainActivity : ComponentActivity() {
                         composable(Routes.ResultScreen.route) { ResultScreen(
                             navController = navigationController,
                             gameMainViewModel,
-                            settingsViewModel,
                             resultViewModel
                         )}
 

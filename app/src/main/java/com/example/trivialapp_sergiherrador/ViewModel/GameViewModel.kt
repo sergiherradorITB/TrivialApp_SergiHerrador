@@ -11,66 +11,81 @@ import com.example.trivialapp_sergiherrador.Model.easyQuestions
 import com.example.trivialapp_sergiherrador.Model.hardQuestions
 import com.example.trivialapp_sergiherrador.Model.mediumQuestions
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 // ViewModel --> Aquí se ponen variables y funciones para cambiarlas
 
 class GameViewModel : ViewModel() {
-    var actualRound: Int by mutableStateOf(1)
+    var actualRound: Int by mutableStateOf(0)
         private set
+    var allQuestions by mutableStateOf(easyQuestions + mediumQuestions + hardQuestions)
+        private set
+
 
     var currentQuestionIndex: Int by mutableStateOf(0)
         private set
-
+    
     var gameFinished: Boolean by mutableStateOf(false)
         private set
 
     var isCorrectAnswer: Boolean by mutableStateOf(false)
         private set
 
-    // Lista completa de preguntas
-    private val allQuestions = easyQuestions + mediumQuestions + hardQuestions
-
-    var fallos:Int by mutableIntStateOf(0)
+    var fallos: Int by mutableIntStateOf(0)
         private set
 
-    var aciertos:Int by mutableIntStateOf(0)
+    var aciertos: Int by mutableIntStateOf(0)
         private set
+
+
 
     // Método para obtener la pregunta actual
-    fun getCurrentQuestion(): Question {
-        // Asegurarse de que el índice esté dentro de los límites de la lista
-        return if (currentQuestionIndex >= 0 && currentQuestionIndex < allQuestions.size) {
-            allQuestions[currentQuestionIndex]
-        } else {
-            // En caso de que el índice sea incorrecto, devolver una pregunta vacía o manejar el error según tu lógica
-            Question("", "", 0, Question.Difficulty.EASY, emptyList())
+    fun getCurrentQuestion(settingsViewModel: SettingsViewModel): Question {
+        return when (settingsViewModel.dificultad) {
+            "Easy" -> {
+                easyQuestions.random()
+            }
+
+            "Medium" -> {
+                mediumQuestions.random()
+            }
+
+            "Hard" -> {
+                hardQuestions.random()
+            }
+
+            else -> {
+                allQuestions.random()
+            }
         }
     }
 
-    fun moveToNextQuestion() {
+    fun moveToNextQuestion(settingsViewModel: SettingsViewModel) {
         actualRound++
         isCorrectAnswer = false
         currentQuestionIndex++
 
-        if (actualRound >= allQuestions.size) {
+        if (actualRound >= settingsViewModel.rondas) {
             // El juego ha terminado
             gameFinished = true
         }
     }
 
-    fun checkAnswer(answer: Question.Answer) {
+    fun checkAnswer(answer: Question.Answer, settingsViewModel: SettingsViewModel) {
         isCorrectAnswer = answer.isCorrect
         if (isCorrectAnswer) {
             aciertos++
         } else {
             fallos++
         }
-        moveToNextQuestion()
+        moveToNextQuestion(settingsViewModel)
     }
 
     fun resetGame() {
-        actualRound = 1
+        actualRound = 0
         isCorrectAnswer = false
         gameFinished = false
         fallos = 0

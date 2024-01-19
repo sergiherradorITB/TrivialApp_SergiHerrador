@@ -21,7 +21,6 @@ import com.example.trivialapp_sergiherrador.ViewModel.SettingsViewModel
 fun ResultScreen(
     navController: NavController,
     gameViewModel: GameViewModel,
-    totalQuestions: SettingsViewModel,
     resultViewModel: ResultViewModel
 ) {
 

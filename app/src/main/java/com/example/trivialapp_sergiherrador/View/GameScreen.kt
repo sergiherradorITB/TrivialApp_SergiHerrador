@@ -7,8 +7,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -26,13 +28,13 @@ fun GameScreen(
     gameViewModel: GameViewModel,
     settingsViewModel: SettingsViewModel
 ) {
-    val currentQuestion = gameViewModel.getCurrentQuestion()
+    val currentQuestion = gameViewModel.getCurrentQuestion(settingsViewModel)
     val respuestas = currentQuestion.answers
 
     // Verificar si el juego ha terminado
     if (gameViewModel.gameFinished) {
         // Navegar a la pantalla de resultados
-         navController.navigate("ResultScreen")
+        navController.navigate("ResultScreen")
     } else {
         // Mostrar la pantalla del juego normalmente
         Column(modifier = Modifier.padding(16.dp)) {
@@ -71,7 +73,7 @@ fun GameScreen(
                 ) {
                     // Utilizar los textos de las respuestas en los botones
                     Button(
-                        onClick = { gameViewModel.checkAnswer(respuestas[0]) },
+                        onClick = { gameViewModel.checkAnswer(respuestas[0], settingsViewModel) },
                         modifier = Modifier
                             .weight(0.4f)
                             .padding(end = 8.dp)
@@ -79,7 +81,7 @@ fun GameScreen(
                         Text(text = respuestas[0].answerText)
                     }
                     Button(
-                        onClick = { gameViewModel.checkAnswer(respuestas[1]) },
+                        onClick = { gameViewModel.checkAnswer(respuestas[1],settingsViewModel) },
                         modifier = Modifier
                             .weight(0.4f)
                             .padding(end = 8.dp)
@@ -94,7 +96,7 @@ fun GameScreen(
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
                     Button(
-                        onClick = { gameViewModel.checkAnswer(respuestas[2]) },
+                        onClick = { gameViewModel.checkAnswer(respuestas[2],settingsViewModel) },
                         modifier = Modifier
                             .weight(0.4f)
                             .padding(end = 8.dp)
@@ -102,7 +104,7 @@ fun GameScreen(
                         Text(text = respuestas[2].answerText)
                     }
                     Button(
-                        onClick = { gameViewModel.checkAnswer(respuestas[3]) },
+                        onClick = { gameViewModel.checkAnswer(respuestas[3],settingsViewModel) },
                         modifier = Modifier
                             .weight(0.4f)
                             .padding(end = 8.dp)
@@ -111,6 +113,7 @@ fun GameScreen(
                     }
                 }
             }
+
         }
     }
 }
