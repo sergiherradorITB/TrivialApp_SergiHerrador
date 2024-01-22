@@ -35,6 +35,7 @@ import androidx.navigation.NavHostController
 import com.example.trivialapp_sergiherrador.ViewModel.GameViewModel
 import com.example.trivialapp_sergiherrador.ViewModel.SettingsViewModel
 
+
 @Composable
 fun GameScreen(
     navController: NavHostController,
@@ -42,8 +43,8 @@ fun GameScreen(
     settingsViewModel: SettingsViewModel,
     windowSize: WindowSizeClass
 ) {
-    var currentQuestion by remember { (mutableStateOf(gameViewModel.getCurrentQuestion(settingsViewModel))) }
-    var respuestas by remember {(mutableStateOf(currentQuestion.answers))}
+    var currentQuestion = gameViewModel.currentQuestion
+    var respuestas = currentQuestion.answers
 
     // Verificar si el juego ha terminado
     if (gameViewModel.gameFinished) {
@@ -111,7 +112,7 @@ fun GameScreen(
                                 Button(
                                     onClick = {
                                         // Actualizar currentQuestion y respuestas cada vez que se hace clic en el botón
-                                        currentQuestion = gameViewModel.getCurrentQuestion(settingsViewModel)
+                                        //currentQuestion = gameViewModel.getCurrentQuestion(settingsViewModel)
                                         respuestas = currentQuestion.answers
                                         gameViewModel.checkAnswer(
                                             respuestas[i],
@@ -139,7 +140,7 @@ fun GameScreen(
                                 Button(
                                     onClick = {
                                         // Actualizar currentQuestion y respuestas cada vez que se hace clic en el botón
-                                        currentQuestion = gameViewModel.getCurrentQuestion(settingsViewModel)
+                                        // currentQuestion = gameViewModel.getCurrentQuestion(settingsViewModel)
                                         respuestas = currentQuestion.answers
                                         gameViewModel.checkAnswer(
                                             respuestas[i],
@@ -200,7 +201,7 @@ fun GameScreen(
                         Button(
                             onClick = {
                                 // Actualizar currentQuestion y respuestas cada vez que se hace clic en el botón
-                                currentQuestion = gameViewModel.getCurrentQuestion(settingsViewModel)
+                                // currentQuestion = gameViewModel.getCurrentQuestion(settingsViewModel)
                                 respuestas = currentQuestion.answers
                                 gameViewModel.checkAnswer(
                                     respuestas[0],
@@ -219,7 +220,7 @@ fun GameScreen(
                         Button(
                             onClick = {
                                 // Actualizar currentQuestion y respuestas cada vez que se hace clic en el botón
-                                currentQuestion = gameViewModel.getCurrentQuestion(settingsViewModel)
+                                // currentQuestion = gameViewModel.getCurrentQuestion(settingsViewModel)
                                 respuestas = currentQuestion.answers
                                 gameViewModel.checkAnswer(
                                     respuestas[1],
@@ -245,7 +246,7 @@ fun GameScreen(
                         Button(
                             onClick = {
                                 // Actualizar currentQuestion y respuestas cada vez que se hace clic en el botón
-                                currentQuestion = gameViewModel.getCurrentQuestion(settingsViewModel)
+                                // currentQuestion = gameViewModel.getCurrentQuestion(settingsViewModel)
                                 respuestas = currentQuestion.answers
                                 gameViewModel.checkAnswer(
                                     respuestas[2],
@@ -264,7 +265,7 @@ fun GameScreen(
                         Button(
                             onClick = {
                                 // Actualizar currentQuestion y respuestas cada vez que se hace clic en el botón
-                                currentQuestion = gameViewModel.getCurrentQuestion(settingsViewModel)
+                                // currentQuestion = gameViewModel.getCurrentQuestion(settingsViewModel)
                                 respuestas = currentQuestion.answers
                                 gameViewModel.checkAnswer(
                                     respuestas[3],
