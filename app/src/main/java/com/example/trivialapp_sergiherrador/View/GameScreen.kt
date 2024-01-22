@@ -14,10 +14,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -36,8 +42,8 @@ fun GameScreen(
     settingsViewModel: SettingsViewModel,
     windowSize: WindowSizeClass
 ) {
-    val currentQuestion = gameViewModel.getCurrentQuestion(settingsViewModel)
-    val respuestas = currentQuestion.answers
+    var currentQuestion by remember { (mutableStateOf(gameViewModel.getCurrentQuestion(settingsViewModel))) }
+    var respuestas by remember {(mutableStateOf(currentQuestion.answers))}
 
     // Verificar si el juego ha terminado
     if (gameViewModel.gameFinished) {
@@ -104,6 +110,9 @@ fun GameScreen(
                             for (i in 0 until 2) {
                                 Button(
                                     onClick = {
+                                        // Actualizar currentQuestion y respuestas cada vez que se hace clic en el botón
+                                        currentQuestion = gameViewModel.getCurrentQuestion(settingsViewModel)
+                                        respuestas = currentQuestion.answers
                                         gameViewModel.checkAnswer(
                                             respuestas[i],
                                             settingsViewModel
@@ -129,6 +138,9 @@ fun GameScreen(
                             for (i in 2 until 4) {
                                 Button(
                                     onClick = {
+                                        // Actualizar currentQuestion y respuestas cada vez que se hace clic en el botón
+                                        currentQuestion = gameViewModel.getCurrentQuestion(settingsViewModel)
+                                        respuestas = currentQuestion.answers
                                         gameViewModel.checkAnswer(
                                             respuestas[i],
                                             settingsViewModel
@@ -144,6 +156,13 @@ fun GameScreen(
                                     )
                                 }
                             }
+                            LinearProgressIndicator(
+                                progress = gameViewModel.progress,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp)
+                            )
+
                         }
                     }
                 }
@@ -180,6 +199,9 @@ fun GameScreen(
                         // Utilizar los textos de las respuestas en los botones
                         Button(
                             onClick = {
+                                // Actualizar currentQuestion y respuestas cada vez que se hace clic en el botón
+                                currentQuestion = gameViewModel.getCurrentQuestion(settingsViewModel)
+                                respuestas = currentQuestion.answers
                                 gameViewModel.checkAnswer(
                                     respuestas[0],
                                     settingsViewModel
@@ -196,6 +218,9 @@ fun GameScreen(
                         }
                         Button(
                             onClick = {
+                                // Actualizar currentQuestion y respuestas cada vez que se hace clic en el botón
+                                currentQuestion = gameViewModel.getCurrentQuestion(settingsViewModel)
+                                respuestas = currentQuestion.answers
                                 gameViewModel.checkAnswer(
                                     respuestas[1],
                                     settingsViewModel
@@ -219,6 +244,9 @@ fun GameScreen(
                     ) {
                         Button(
                             onClick = {
+                                // Actualizar currentQuestion y respuestas cada vez que se hace clic en el botón
+                                currentQuestion = gameViewModel.getCurrentQuestion(settingsViewModel)
+                                respuestas = currentQuestion.answers
                                 gameViewModel.checkAnswer(
                                     respuestas[2],
                                     settingsViewModel
@@ -235,6 +263,9 @@ fun GameScreen(
                         }
                         Button(
                             onClick = {
+                                // Actualizar currentQuestion y respuestas cada vez que se hace clic en el botón
+                                currentQuestion = gameViewModel.getCurrentQuestion(settingsViewModel)
+                                respuestas = currentQuestion.answers
                                 gameViewModel.checkAnswer(
                                     respuestas[3],
                                     settingsViewModel
@@ -250,6 +281,12 @@ fun GameScreen(
                             )
                         }
                     }
+                    LinearProgressIndicator(
+                        progress = gameViewModel.progress,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp)
+                    )
                 }
             }
         }

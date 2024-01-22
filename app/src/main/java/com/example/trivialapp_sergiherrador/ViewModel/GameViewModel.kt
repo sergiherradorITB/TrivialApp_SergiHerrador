@@ -4,6 +4,7 @@ import android.widget.Toast
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.trivialapp_sergiherrador.Model.Question
@@ -24,10 +25,9 @@ class GameViewModel : ViewModel() {
     var allQuestions by mutableStateOf(easyQuestions + mediumQuestions + hardQuestions)
         private set
 
-
     var currentQuestionIndex: Int by mutableStateOf(0)
         private set
-    
+
     var gameFinished: Boolean by mutableStateOf(false)
         private set
 
@@ -40,7 +40,7 @@ class GameViewModel : ViewModel() {
     var aciertos: Int by mutableIntStateOf(0)
         private set
 
-
+    var currentQuestion = mutableStateOf(getCurrentQuestion(settingsViewModel = SettingsViewModel()))
 
     // Método para obtener la pregunta actual
     fun getCurrentQuestion(settingsViewModel: SettingsViewModel): Question {
@@ -62,6 +62,19 @@ class GameViewModel : ViewModel() {
             }
         }
     }
+
+    var progress by mutableStateOf(0.0f)
+
+    init {
+        viewModelScope.launch {
+            while (progress < 1.0f) {
+                delay(1000)
+                progress += 0.1f
+            }
+            moveToNextQuestion(settingsViewModel = SettingsViewModel())
+        }
+    }
+
 
     fun moveToNextQuestion(settingsViewModel: SettingsViewModel) {
         actualRound++
@@ -91,5 +104,6 @@ class GameViewModel : ViewModel() {
         fallos = 0
         aciertos = 0
         currentQuestionIndex = 0
+        progress = 0f
     }
 }

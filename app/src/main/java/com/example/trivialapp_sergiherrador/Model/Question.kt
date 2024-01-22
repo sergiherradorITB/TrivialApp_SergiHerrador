@@ -397,10 +397,10 @@ val hardQuestions = listOf(
         R.drawable.neonagent,
         Question.Difficulty.HARD,
         listOf(
-            Question.Answer("Oro", true),
-            Question.Answer("Plata", false),
-            Question.Answer("Platino", false),
-            Question.Answer("Mercurio", false)
+            Question.Answer("Valorant", true),
+            Question.Answer("Prince of persia", false),
+            Question.Answer("League of Legends", false),
+            Question.Answer("Tales of Zestiria", false)
         )
     ),
     Question(
@@ -414,7 +414,162 @@ val hardQuestions = listOf(
             Question.Answer("Deimos", true),
             Question.Answer("Sefisto", false)
         )
+    ),
+    Question(
+        "Hard 3",
+        "¿Cuál es el nombre del anime del protagonista Shinichi Izumi?",
+        R.drawable.parasyte,
+        Question.Difficulty.HARD,
+        listOf(
+            Question.Answer("Parasyte", true),
+            Question.Answer("Magi", false),
+            Question.Answer("Jujutsu Kaisen", false),
+            Question.Answer("Madokka Magica", false)
+        )
+    ),
+    Question(
+        "Hard 4",
+        "¿En qué anime los personajes luchan contra 'Homúnculos'?",
+        R.drawable.fma_homunculus,
+        Question.Difficulty.HARD,
+        listOf(
+            Question.Answer("Attack on Titan", false),
+            Question.Answer("Tokyo Ghoul", false),
+            Question.Answer("Fullmetal Alchemist: Brotherhood", true),
+            Question.Answer("Hunter x Hunter", false)
+        )
+    ),
+    Question(
+        "Hard 5",
+        "¿A qué anime pertenece el equipo de fútbol Raimon?",
+        R.drawable.inazuma_eleven,
+        Question.Difficulty.HARD,
+        listOf(
+            Question.Answer("Inazuma Eleven", true),
+            Question.Answer("Captain Tsubasa", false),
+            Question.Answer("Haikyuu!!", false),
+            Question.Answer("Kuroko no Basket", false)
+        )
+    ),
+    Question(
+        "Hard 6",
+        "¿En TU CARA ME SUENA, quien canta la cancion de OLIVER Y BENJI?",
+        R.drawable.oliver_and_benji,
+        Question.Difficulty.HARD,
+        listOf(
+            Question.Answer("Rafael y Miquel Montoro", false),
+            Question.Answer("Miki Nadal y Fran", true),
+            Question.Answer("Ibai Llanos y Ander Cortés", false),
+            Question.Answer("Belen Esteban y Santiago Segura", false)
+        )
+    ),
+    Question(
+        "Hard 7",
+        "¿Cuál era el gitano de Oliver y Benji?",
+        R.drawable.gitanobenji,
+        Question.Difficulty.HARD,
+        listOf(
+            Question.Answer("Mark Lenders/Hyuga", true),
+            Question.Answer("Oliver/Tsubasa", false),
+            Question.Answer("Roberto/Roberto", false),
+            Question.Answer("Los gemelos Derrick", false)
+        )
+    ),
+    Question(
+        "Hard 8",
+        "¿En qué anime los personajes utilizan 'Nen' para luchar?",
+        R.drawable.hunterxhunter_nen,
+        Question.Difficulty.HARD,
+        listOf(
+            Question.Answer("Naruto", false),
+            Question.Answer("One Piece", false),
+            Question.Answer("Hunter x Hunter", true),
+            Question.Answer("Bleach", false)
+        )
+    ),
+    Question(
+        "Hard 9",
+        "¿Cuál es el nombre del protagonista en 'Cowboy Bebop'?",
+        R.drawable.cowboy_bebop,
+        Question.Difficulty.HARD,
+        listOf(
+            Question.Answer("Jet Black", false),
+            Question.Answer("Spike Spiegel", true),
+            Question.Answer("Faye Valentine", false),
+            Question.Answer("Edward Wong", false)
+        )
+    ),
+    Question(
+        "Hard 10",
+        "¿Cuál es el nombre del protagonista en 'Ghost in the Shell'?",
+        R.drawable.ghost_in_the_shell,
+        Question.Difficulty.HARD,
+        listOf(
+            Question.Answer("Motoko Kusanagi", true),
+            Question.Answer("Batou", false),
+            Question.Answer("Togusa", false),
+            Question.Answer("Daisuke Aramaki", false)
+        )
+    ),
+    Question(
+        "Hard 11",
+        "¿Como se llama el protagonista de 'Tokyo Ghoul'?",
+        R.drawable.tokyo_ghoul,
+        Question.Difficulty.HARD,
+        listOf(
+            Question.Answer("Yuno Gasai", false),
+            Question.Answer("Asta", false),
+            Question.Answer("Kaneki Ken", true),
+            Question.Answer("Freezer", false)
+        )
+    ),
+    Question(
+        "Hard 12",
+        "¿A qué anime pertenece el personaje Kenzo Tenma?",
+        R.drawable.monster,
+        Question.Difficulty.HARD,
+        listOf(
+            Question.Answer("Monster", true),
+            Question.Answer("Death Note", false),
+            Question.Answer("Steins;Gate", false),
+            Question.Answer("Paranoia Agent", false)
+        )
+    ),
+    Question(
+        "Hard 13",
+        "¿En qué anime los personajes tienen un dispositivo llamado 'DigiVice'?",
+        R.drawable.digimon,
+        Question.Difficulty.HARD,
+        listOf(
+            Question.Answer("Pokémon", false),
+            Question.Answer("Digimon", true),
+            Question.Answer("Yu-Gi-Oh!", false),
+            Question.Answer("Cardcaptor Sakura", false)
+        )
+    ),
+    Question(
+        "Hard 14",
+        "¿Cuál es el nombre del protagonista en 'Elfen Lied'?",
+        R.drawable.elfen_lied,
+        Question.Difficulty.HARD,
+        listOf(
+            Question.Answer("Lucy", true),
+            Question.Answer("Kohta", false),
+            Question.Answer("Nana", false),
+            Question.Answer("Mayu", false)
+        )
+    ),
+    Question(
+        "Hard 15",
+        "¿En qué anime los personajes participan en el 'Santo Grial de la Guerra'?",
+        R.drawable.fatezero,
+        Question.Difficulty.HARD,
+        listOf(
+            Question.Answer("Fate/stay night", false),
+            Question.Answer("Fate/Zero", true),
+            Question.Answer("Fate/Apocrypha", false),
+            Question.Answer("Fate/Grand Order", false)
+        )
     )
-
-    // Agrega más preguntas difíciles según sea necesario
 )
+
