@@ -205,13 +205,167 @@ val easyQuestions = listOf(
         )
     )
 
-
-
 )
 
 val mediumQuestions = listOf(
     Question(
         "Medium 1",
+        "¿Cuál es el nombre del campeón yordle que lanza bombas en 'League of Legends'?",
+        R.drawable.ziggs,
+        Question.Difficulty.MEDIUM,
+        listOf(
+            Question.Answer("Teemo", false),
+            Question.Answer("Heimerdinger", false),
+            Question.Answer("Tristana", false),
+            Question.Answer("Ziggs", true)
+        )
+    ),
+    Question(
+        "Medium 2",
+        "¿En qué serie de anime los personajes buscan las 'Esferas del Dragón'?",
+        R.drawable.esferas_dragonball,
+        Question.Difficulty.MEDIUM,
+        listOf(
+            Question.Answer("One Piece", false),
+            Question.Answer("Naruto", false),
+            Question.Answer("Dragon Ball", true),
+            Question.Answer("Bleach", false)
+        )
+    ),
+    Question(
+        "Medium 3",
+        "¿Cómo se llama la espada del personaje Cloud Strife en 'Final Fantasy VII'?",
+        R.drawable.cloud,
+        Question.Difficulty.MEDIUM,
+        listOf(
+            Question.Answer("Excalibur", false),
+            Question.Answer("Masamune", false),
+            Question.Answer("Buster Sword", true),
+            Question.Answer("Soul Edge", false)
+        )
+    ),
+    Question(
+        "Medium 4",
+        "¿En qué ciudad ficticia se desarrolla la serie 'Stranger Things'?",
+        R.drawable.stranger_things,
+        Question.Difficulty.MEDIUM,
+        listOf(
+            Question.Answer("Hawkins", true),
+            Question.Answer("Springfield", false),
+            Question.Answer("Riverdale", false),
+            Question.Answer("Hill Valley", false)
+        )
+    ),
+    Question(
+        "Medium 5",
+        "¿Cuál es el nombre del personaje principal en 'The Legend of Zelda'?",
+        R.drawable.link,
+        Question.Difficulty.MEDIUM,
+        listOf(
+            Question.Answer("Ganondorf", false),
+            Question.Answer("Link", true),
+            Question.Answer("Zelda", false),
+            Question.Answer("Impa", false)
+        )
+    ),
+    Question(
+        "Medium 6",
+        "¿Quién es el creador de la serie de cómics 'Spider-Man'?",
+        R.drawable.spiderman,
+        Question.Difficulty.MEDIUM,
+        listOf(
+            Question.Answer("Stan Lee", true),
+            Question.Answer("Jack Kirby", false),
+            Question.Answer("Frank Miller", false),
+            Question.Answer("Alan Moore", false)
+        )
+    ),
+    Question(
+        "Medium 7",
+        "¿En qué año se lanzó el primer videojuego de 'Super Mario Bros.'?",
+        R.drawable.mario,
+        Question.Difficulty.MEDIUM,
+        listOf(
+            Question.Answer("1983", false),
+            Question.Answer("1985", true),
+            Question.Answer("1990", false),
+            Question.Answer("1992", false)
+        )
+    ),
+    Question(
+        "Medium 8",
+        "¿Cuál es el nombre del protagonista en la serie de televisión 'Doctor Who'?",
+        R.drawable.doctor_who,
+        Question.Difficulty.MEDIUM,
+        listOf(
+            Question.Answer("Captain Jack Harkness", false),
+            Question.Answer("The Doctor", true),
+            Question.Answer("Rose Tyler", false),
+            Question.Answer("River Song", false)
+        )
+    ),
+    Question(
+        "Medium 9",
+        "¿En qué videojuego de rol puedes encontrar a los personajes Tidus y Yuna?",
+        R.drawable.ffx,
+        Question.Difficulty.MEDIUM,
+        listOf(
+            Question.Answer("Final Fantasy VIII", false),
+            Question.Answer("Final Fantasy X", true),
+            Question.Answer("Final Fantasy VII", false),
+            Question.Answer("Final Fantasy IX", false)
+        )
+    ),
+    Question(
+        "Medium 10",
+        "¿Cuál es el nombre del androide verde en 'Dragon Ball Z'?",
+        R.drawable.android_16,
+        Question.Difficulty.MEDIUM,
+        listOf(
+            Question.Answer("Android 17", false),
+            Question.Answer("Android 18", false),
+            Question.Answer("Android 16", true),
+            Question.Answer("Cell", false)
+        )
+    ),
+    Question(
+        "Medium 11",
+        "¿En qué año se lanzó la primera película de 'Star Wars'?",
+        R.drawable.star_wars,
+        Question.Difficulty.MEDIUM,
+        listOf(
+            Question.Answer("1975", false),
+            Question.Answer("1977", true),
+            Question.Answer("1980", false),
+            Question.Answer("1983", false)
+        )
+    ),
+    Question(
+        "Medium 12",
+        "¿Cuál es el nombre del personaje principal en la serie 'Breaking Bad'?",
+        R.drawable.breaking_bad,
+        Question.Difficulty.MEDIUM,
+        listOf(
+            Question.Answer("Walter White", true),
+            Question.Answer("Jesse Pinkman", false),
+            Question.Answer("Saul Goodman", false),
+            Question.Answer("Hank Schrader", false)
+        )
+    ),
+    Question(
+        "Medium 13",
+        "¿Cuál es el nombre del personaje principal en 'Assassin's Creed'?",
+        R.drawable.assassins_creed,
+        Question.Difficulty.MEDIUM,
+        listOf(
+            Question.Answer("Ezio Auditore", false),
+            Question.Answer("Altair Ibn-La'Ahad", false),
+            Question.Answer("Connor Kenway", false),
+            Question.Answer("Desmond Miles", true)
+        )
+    ),
+    Question(
+        "Medium 14",
         "¿A que campeón del lol pertenece esta habilidad?",
         R.drawable.sennacurse,
         Question.Difficulty.MEDIUM,
@@ -223,7 +377,7 @@ val mediumQuestions = listOf(
         )
     ),
     Question(
-        "Medium 2",
+        "Medium 15",
         "¿A que obra pertenece el grupo SEX-BOB-OMB?",
         R.drawable.sexbobomb,
         Question.Difficulty.MEDIUM,
@@ -261,5 +415,6 @@ val hardQuestions = listOf(
             Question.Answer("Sefisto", false)
         )
     )
+
     // Agrega más preguntas difíciles según sea necesario
 )

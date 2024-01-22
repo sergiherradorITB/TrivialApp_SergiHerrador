@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -78,7 +79,8 @@ fun GameScreen(
                         modifier = Modifier
                             .fillMaxWidth(0.4f)
                             .scale(1f, 1f)
-                            .fillMaxHeight(1f),
+                            .fillMaxHeight(1f)
+                            .aspectRatio(1f),  // Ajusta el valor 1f según tus necesidades
                         painter = painterResource(id = currentQuestion.questionImage),
                         contentDescription = currentQuestion.questionName
                     )
@@ -151,13 +153,12 @@ fun GameScreen(
                         .fillMaxWidth()
                         .fillMaxHeight(0.4f),
                     contentAlignment = Alignment.Center
-
-                )
-                {
+                ) {
                     Image(
                         modifier = Modifier
                             .fillMaxSize()
-                            .scale(1f, 1f),
+                            .scale(1f, 1f)
+                            .aspectRatio(1f),  // Ajusta el valor 1f según tus necesidades
                         painter = painterResource(id = currentQuestion.questionImage),
                         contentDescription = currentQuestion.questionName
                     )
