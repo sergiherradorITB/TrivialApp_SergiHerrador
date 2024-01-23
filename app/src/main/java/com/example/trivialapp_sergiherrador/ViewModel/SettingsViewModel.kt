@@ -33,10 +33,10 @@ class SettingsViewModel : ViewModel() {
         rondas = rondasSelected
     }
 
-    var sliderValue by mutableStateOf(0f)
+    var sliderValue by mutableStateOf(5f) // Si no se especifica nada pone 5 segundos
         private set
 
-    fun modifySliderValue(sliderChangedValue: Float) {
+    fun modifySliderValue(sliderChangedValue: Float) { // El slider modifica este valor
         sliderValue = sliderChangedValue
     }
 
@@ -44,7 +44,11 @@ class SettingsViewModel : ViewModel() {
         private set
 
     fun modifyFinishSlider(valorFinishSlider: String) {
-        finishSliderValue = valorFinishSlider
+        finishSliderValue = valorFinishSlider // Muestra el valor en entero como string para poder usarlo y sea legible
+    }
+    fun getSliderSeconds(): Int {
+        // Convierte el valor del slider a segundos (o realiza cualquier ajuste necesario)
+        return sliderValue.toInt()
     }
 
     var darkMode: Boolean by mutableStateOf(false)

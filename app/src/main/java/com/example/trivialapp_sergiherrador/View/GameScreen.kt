@@ -1,5 +1,6 @@
 package com.example.trivialapp_sergiherrador.View
 
+import android.os.CountDownTimer
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
@@ -32,9 +34,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.trivialapp_sergiherrador.Model.goldenColor
 import com.example.trivialapp_sergiherrador.ViewModel.GameViewModel
 import com.example.trivialapp_sergiherrador.ViewModel.SettingsViewModel
 
+
+// ...
 
 @Composable
 fun GameScreen(
@@ -43,19 +48,24 @@ fun GameScreen(
     settingsViewModel: SettingsViewModel,
     windowSize: WindowSizeClass
 ) {
+
     var currentQuestion = gameViewModel.currentQuestion
     var respuestas = currentQuestion.answers
 
     // Verificar si el juego ha terminado
     if (gameViewModel.gameFinished) {
-        // Navegar a la pantalla de resultados
         navController.navigate("ResultScreen")
+        gameViewModel.cancelTimer()
     } else {
-        // Mostrar la pantalla del juego normalmente
+        LaunchedEffect(gameViewModel.actualRound) {
+            gameViewModel.startTimer(settingsViewModel)
+        }
+        gameViewModel.startGame(settingsViewModel)
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
                 .background(brush = settingsViewModel.getGradient())
+                .fillMaxWidth()
         ) {
             Column(
                 modifier = Modifier
@@ -68,11 +78,11 @@ fun GameScreen(
                 Text(
                     text = "Round " + gameViewModel.actualRound + "/" + settingsViewModel.rondas,
                     color = if (settingsViewModel.darkMode) Color.White else Color.Black
-
                 )
                 Text(
                     text = currentQuestion.questionText,
-                    modifier = Modifier.fillMaxHeight(0.6f),
+                    modifier = Modifier
+                        .fillMaxHeight(0.6f),
                     fontSize = 20.sp,
                     color = if (settingsViewModel.darkMode) Color.White else Color.Black
                 )
@@ -87,7 +97,7 @@ fun GameScreen(
                             .fillMaxWidth(0.4f)
                             .scale(1f, 1f)
                             .fillMaxHeight(1f)
-                            .aspectRatio(1f),  // Ajusta el valor 1f según tus necesidades
+                            .aspectRatio(1f),
                         painter = painterResource(id = currentQuestion.questionImage),
                         contentDescription = currentQuestion.questionName
                     )
@@ -101,18 +111,16 @@ fun GameScreen(
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Row(
+                        Column(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(horizontal = 16.dp),
-                            horizontalArrangement = Arrangement.SpaceEvenly
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
                             // Utilizar los textos de las respuestas en los botones
-                            for (i in 0 until 2) {
+                            for (i in 0 until 4) {
                                 Button(
                                     onClick = {
-                                        // Actualizar currentQuestion y respuestas cada vez que se hace clic en el botón
-                                        //currentQuestion = gameViewModel.getCurrentQuestion(settingsViewModel)
                                         respuestas = currentQuestion.answers
                                         gameViewModel.checkAnswer(
                                             respuestas[i],
@@ -120,40 +128,15 @@ fun GameScreen(
                                         )
                                     },
                                     modifier = Modifier
-                                        .weight(0.4f)
-                                        .padding(end = 8.dp)
+                                        .fillMaxWidth()
+                                        .padding(vertical = 1.dp),
+                                    colors = ButtonDefaults.buttonColors(
+                                        containerColor = if (settingsViewModel.darkMode) goldenColor else Color.Magenta
+                                    ),
                                 ) {
                                     Text(
                                         text = respuestas[i].answerText,
-                                        color = if (settingsViewModel.darkMode) Color.White else Color.Black
-                                    )
-                                }
-                            }
-                        }
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 16.dp),
-                            horizontalArrangement = Arrangement.SpaceEvenly
-                        ) {
-                            for (i in 2 until 4) {
-                                Button(
-                                    onClick = {
-                                        // Actualizar currentQuestion y respuestas cada vez que se hace clic en el botón
-                                        // currentQuestion = gameViewModel.getCurrentQuestion(settingsViewModel)
-                                        respuestas = currentQuestion.answers
-                                        gameViewModel.checkAnswer(
-                                            respuestas[i],
-                                            settingsViewModel
-                                        )
-                                    },
-                                    modifier = Modifier
-                                        .weight(0.4f)
-                                        .padding(end = 8.dp)
-                                ) {
-                                    Text(
-                                        text = respuestas[i].answerText,
-                                        color = if (settingsViewModel.darkMode) Color.White else Color.Black
+                                        color = if (settingsViewModel.darkMode) Color.Black else Color.White
                                     )
                                 }
                             }
@@ -163,7 +146,6 @@ fun GameScreen(
                                     .fillMaxWidth()
                                     .padding(16.dp)
                             )
-
                         }
                     }
                 }
@@ -178,7 +160,7 @@ fun GameScreen(
                         modifier = Modifier
                             .fillMaxSize()
                             .scale(1f, 1f)
-                            .aspectRatio(1f),  // Ajusta el valor 1f según tus necesidades
+                            .aspectRatio(1f),
                         painter = painterResource(id = currentQuestion.questionImage),
                         contentDescription = currentQuestion.questionName
                     )
@@ -200,8 +182,6 @@ fun GameScreen(
                         // Utilizar los textos de las respuestas en los botones
                         Button(
                             onClick = {
-                                // Actualizar currentQuestion y respuestas cada vez que se hace clic en el botón
-                                // currentQuestion = gameViewModel.getCurrentQuestion(settingsViewModel)
                                 respuestas = currentQuestion.answers
                                 gameViewModel.checkAnswer(
                                     respuestas[0],
@@ -210,17 +190,18 @@ fun GameScreen(
                             },
                             modifier = Modifier
                                 .weight(0.4f)
-                                .padding(end = 8.dp)
+                                .padding(end = 8.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = if (settingsViewModel.darkMode) goldenColor else Color.Magenta
+                            ),
                         ) {
                             Text(
                                 text = respuestas[0].answerText,
-                                color = if (settingsViewModel.darkMode) Color.White else Color.Black
+                                color = if (settingsViewModel.darkMode) Color.Black else Color.White
                             )
                         }
                         Button(
                             onClick = {
-                                // Actualizar currentQuestion y respuestas cada vez que se hace clic en el botón
-                                // currentQuestion = gameViewModel.getCurrentQuestion(settingsViewModel)
                                 respuestas = currentQuestion.answers
                                 gameViewModel.checkAnswer(
                                     respuestas[1],
@@ -229,11 +210,14 @@ fun GameScreen(
                             },
                             modifier = Modifier
                                 .weight(0.4f)
-                                .padding(end = 8.dp)
+                                .padding(end = 8.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = if (settingsViewModel.darkMode) goldenColor else Color.Magenta
+                            ),
                         ) {
                             Text(
                                 text = respuestas[1].answerText,
-                                color = if (settingsViewModel.darkMode) Color.White else Color.Black
+                                color = if (settingsViewModel.darkMode) Color.Black else Color.White
                             )
                         }
                     }
@@ -245,8 +229,6 @@ fun GameScreen(
                     ) {
                         Button(
                             onClick = {
-                                // Actualizar currentQuestion y respuestas cada vez que se hace clic en el botón
-                                // currentQuestion = gameViewModel.getCurrentQuestion(settingsViewModel)
                                 respuestas = currentQuestion.answers
                                 gameViewModel.checkAnswer(
                                     respuestas[2],
@@ -255,17 +237,18 @@ fun GameScreen(
                             },
                             modifier = Modifier
                                 .weight(0.4f)
-                                .padding(end = 8.dp)
+                                .padding(end = 8.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = if (settingsViewModel.darkMode) goldenColor else Color.Magenta
+                            ),
                         ) {
                             Text(
                                 text = respuestas[2].answerText,
-                                color = if (settingsViewModel.darkMode) Color.White else Color.Black
+                                color = if (settingsViewModel.darkMode) Color.Black else Color.White
                             )
                         }
                         Button(
                             onClick = {
-                                // Actualizar currentQuestion y respuestas cada vez que se hace clic en el botón
-                                // currentQuestion = gameViewModel.getCurrentQuestion(settingsViewModel)
                                 respuestas = currentQuestion.answers
                                 gameViewModel.checkAnswer(
                                     respuestas[3],
@@ -274,11 +257,14 @@ fun GameScreen(
                             },
                             modifier = Modifier
                                 .weight(0.4f)
-                                .padding(end = 8.dp)
+                                .padding(end = 8.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = if (settingsViewModel.darkMode) goldenColor else Color.Magenta
+                            ),
                         ) {
                             Text(
                                 text = respuestas[3].answerText,
-                                color = if (settingsViewModel.darkMode) Color.White else Color.Black
+                                color = if (settingsViewModel.darkMode) Color.Black else Color.White
                             )
                         }
                     }
