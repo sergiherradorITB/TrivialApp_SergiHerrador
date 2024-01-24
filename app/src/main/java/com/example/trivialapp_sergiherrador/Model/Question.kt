@@ -9,7 +9,8 @@ data class Question(
     val questionText: String,
     val questionImage: Int,
     val difficulty: Difficulty,
-    val answers: List<Answer>
+    val answers: List<Answer>,
+    var respondida: Boolean
 ) {
     data class Answer(
         val answerText: String,
@@ -34,7 +35,8 @@ val easyQuestions = listOf(
             Question.Answer("Kuromi", true),
             Question.Answer("Manolo", false),
             Question.Answer("MyMelody", false)
-        )
+        ),
+        false
     ),
     Question(
         "Easy 2",
@@ -46,7 +48,8 @@ val easyQuestions = listOf(
             Question.Answer("Yo", false),
             Question.Answer("Dani Santiago", false),
             Question.Answer("Marsupilami", false)
-        )
+        ),
+        false
     ),
     Question(
         "Easy 3",
@@ -58,7 +61,8 @@ val easyQuestions = listOf(
             Question.Answer("Naruto", true),
             Question.Answer("Goku", false),
             Question.Answer("Sasuke", false)
-        )
+        ),
+        false
     ),
     Question(
         "Easy 4",
@@ -70,7 +74,8 @@ val easyQuestions = listOf(
             Question.Answer("Pikachu", true),
             Question.Answer("Dragón", false),
             Question.Answer("Rana", false)
-        )
+        ),
+        false
     ),
     Question(
         "Easy 5",
@@ -82,7 +87,8 @@ val easyQuestions = listOf(
             Question.Answer("Naruto", false),
             Question.Answer("Dragon Ball", false),
             Question.Answer("Bleach", false)
-        )
+        ),
+        false
     ),
     Question(
         "Easy 6",
@@ -94,7 +100,8 @@ val easyQuestions = listOf(
             Question.Answer("Toei Animation", false),
             Question.Answer("Madhouse", false),
             Question.Answer("Sunrise", false)
-        )
+        ),
+        false
     ),
     Question(
         "Easy 7",
@@ -106,7 +113,8 @@ val easyQuestions = listOf(
             Question.Answer("Gohan", false),
             Question.Answer("Goku", true),
             Question.Answer("Piccolo", false)
-        )
+        ),
+        false
     ),
     Question(
         "Easy 8",
@@ -118,7 +126,8 @@ val easyQuestions = listOf(
             Question.Answer("Bulbasaur", false),
             Question.Answer("Squirtle", true),
             Question.Answer("Pikachu", false)
-        )
+        ),
+        false
     ),
     Question(
         "Easy 9",
@@ -130,7 +139,8 @@ val easyQuestions = listOf(
             Question.Answer("Naruto", false),
             Question.Answer("Attack on Titan", true),
             Question.Answer("Bleach", false)
-        )
+        ),
+        false
     ),
     Question(
         "Easy 10",
@@ -142,7 +152,8 @@ val easyQuestions = listOf(
             Question.Answer("Rei Hino", false),
             Question.Answer("Ami Mizuno", false),
             Question.Answer("Makoto Kino", false)
-        )
+        ),
+        false
     ),
     Question(
         "Easy 11",
@@ -154,7 +165,8 @@ val easyQuestions = listOf(
             Question.Answer("Squirtle", false),
             Question.Answer("Charmander", true),
             Question.Answer("Pikachu", false)
-        )
+        ),
+        false
     ),
     Question(
         "Easy 12",
@@ -166,7 +178,8 @@ val easyQuestions = listOf(
             Question.Answer("All Might", false),
             Question.Answer("Deku", true),
             Question.Answer("Todoroki", false)
-        )
+        ),
+        false
     ),
     Question(
         "Easy 13",
@@ -178,7 +191,8 @@ val easyQuestions = listOf(
             Question.Answer("Yokai Watch", true),
             Question.Answer("Pokémon", false),
             Question.Answer("Beyblade", false)
-        )
+        ),
+        false
     ),
     Question(
         "Easy 14",
@@ -190,7 +204,8 @@ val easyQuestions = listOf(
             Question.Answer("Alphonse", true),
             Question.Answer("Greed", false),
             Question.Answer("Envy", false)
-        )
+        ),
+        false
     ),
     Question(
         "Easy 15",
@@ -202,7 +217,8 @@ val easyQuestions = listOf(
             Question.Answer("Mamoru Hosoda", false),
             Question.Answer("Hayao Miyazaki", true),
             Question.Answer("Satoshi Kon", false)
-        )
+        ),
+        false
     )
 
 )
@@ -218,7 +234,8 @@ val mediumQuestions = listOf(
             Question.Answer("Heimerdinger", false),
             Question.Answer("Tristana", false),
             Question.Answer("Ziggs", true)
-        )
+        ),
+        false
     ),
     Question(
         "Medium 2",
@@ -230,7 +247,8 @@ val mediumQuestions = listOf(
             Question.Answer("Naruto", false),
             Question.Answer("Dragon Ball", true),
             Question.Answer("Bleach", false)
-        )
+        ),
+        false
     ),
     Question(
         "Medium 3",
@@ -242,7 +260,8 @@ val mediumQuestions = listOf(
             Question.Answer("Masamune", false),
             Question.Answer("Buster Sword", true),
             Question.Answer("Soul Edge", false)
-        )
+        ),
+        false
     ),
     Question(
         "Medium 4",
@@ -254,7 +273,8 @@ val mediumQuestions = listOf(
             Question.Answer("Springfield", false),
             Question.Answer("Riverdale", false),
             Question.Answer("Hill Valley", false)
-        )
+        ),
+        false
     ),
     Question(
         "Medium 5",
@@ -266,7 +286,8 @@ val mediumQuestions = listOf(
             Question.Answer("Link", true),
             Question.Answer("Zelda", false),
             Question.Answer("Impa", false)
-        )
+        ),
+        false
     ),
     Question(
         "Medium 6",
@@ -278,7 +299,8 @@ val mediumQuestions = listOf(
             Question.Answer("Jack Kirby", false),
             Question.Answer("Frank Miller", false),
             Question.Answer("Alan Moore", false)
-        )
+        ),
+        false
     ),
     Question(
         "Medium 7",
@@ -290,7 +312,8 @@ val mediumQuestions = listOf(
             Question.Answer("1985", true),
             Question.Answer("1990", false),
             Question.Answer("1992", false)
-        )
+        ),
+        false
     ),
     Question(
         "Medium 8",
@@ -302,7 +325,8 @@ val mediumQuestions = listOf(
             Question.Answer("The Doctor", true),
             Question.Answer("Rose Tyler", false),
             Question.Answer("River Song", false)
-        )
+        ),
+        false
     ),
     Question(
         "Medium 9",
@@ -314,7 +338,8 @@ val mediumQuestions = listOf(
             Question.Answer("Final Fantasy X", true),
             Question.Answer("Final Fantasy VII", false),
             Question.Answer("Final Fantasy IX", false)
-        )
+        ),
+        false
     ),
     Question(
         "Medium 10",
@@ -326,7 +351,8 @@ val mediumQuestions = listOf(
             Question.Answer("Android 18", false),
             Question.Answer("Android 16", true),
             Question.Answer("Cell", false)
-        )
+        ),
+        false
     ),
     Question(
         "Medium 11",
@@ -338,7 +364,8 @@ val mediumQuestions = listOf(
             Question.Answer("1977", true),
             Question.Answer("1980", false),
             Question.Answer("1983", false)
-        )
+        ),
+        false
     ),
     Question(
         "Medium 12",
@@ -350,7 +377,8 @@ val mediumQuestions = listOf(
             Question.Answer("Jesse Pinkman", false),
             Question.Answer("Saul Goodman", false),
             Question.Answer("Hank Schrader", false)
-        )
+        ),
+        false
     ),
     Question(
         "Medium 13",
@@ -362,7 +390,8 @@ val mediumQuestions = listOf(
             Question.Answer("Altair Ibn-La'Ahad", false),
             Question.Answer("Connor Kenway", false),
             Question.Answer("Desmond Miles", true)
-        )
+        ),
+        false
     ),
     Question(
         "Medium 14",
@@ -374,7 +403,8 @@ val mediumQuestions = listOf(
             Question.Answer("Zyra", false),
             Question.Answer("Senna", true),
             Question.Answer("Gragas", false)
-        )
+        ),
+        false
     ),
     Question(
         "Medium 15",
@@ -386,7 +416,8 @@ val mediumQuestions = listOf(
             Question.Answer("Titanic", false),
             Question.Answer("Scott Pilgrim vs the World", true),
             Question.Answer("Twisted Metals", false)
-        )
+        ),
+        false
     )
 )
 
@@ -401,7 +432,8 @@ val hardQuestions = listOf(
             Question.Answer("Prince of persia", false),
             Question.Answer("League of Legends", false),
             Question.Answer("Tales of Zestiria", false)
-        )
+        ),
+        false
     ),
     Question(
         "Hard 2",
@@ -413,7 +445,8 @@ val hardQuestions = listOf(
             Question.Answer("Corinto", false),
             Question.Answer("Deimos", true),
             Question.Answer("Sefisto", false)
-        )
+        ),
+        false
     ),
     Question(
         "Hard 3",
@@ -425,7 +458,8 @@ val hardQuestions = listOf(
             Question.Answer("Magi", false),
             Question.Answer("Jujutsu Kaisen", false),
             Question.Answer("Madokka Magica", false)
-        )
+        ),
+        false
     ),
     Question(
         "Hard 4",
@@ -437,7 +471,8 @@ val hardQuestions = listOf(
             Question.Answer("Tokyo Ghoul", false),
             Question.Answer("Fullmetal Alchemist: Brotherhood", true),
             Question.Answer("Hunter x Hunter", false)
-        )
+        ),
+        false
     ),
     Question(
         "Hard 5",
@@ -449,7 +484,8 @@ val hardQuestions = listOf(
             Question.Answer("Captain Tsubasa", false),
             Question.Answer("Haikyuu!!", false),
             Question.Answer("Kuroko no Basket", false)
-        )
+        ),
+        false
     ),
     Question(
         "Hard 6",
@@ -461,7 +497,8 @@ val hardQuestions = listOf(
             Question.Answer("Miki Nadal y Fran", true),
             Question.Answer("Ibai Llanos y Ander Cortés", false),
             Question.Answer("Belen Esteban y Santiago Segura", false)
-        )
+        ),
+        false
     ),
     Question(
         "Hard 7",
@@ -473,7 +510,8 @@ val hardQuestions = listOf(
             Question.Answer("Oliver/Tsubasa", false),
             Question.Answer("Roberto/Roberto", false),
             Question.Answer("Los gemelos Derrick", false)
-        )
+        ),
+        false
     ),
     Question(
         "Hard 8",
@@ -485,7 +523,8 @@ val hardQuestions = listOf(
             Question.Answer("One Piece", false),
             Question.Answer("Hunter x Hunter", true),
             Question.Answer("Bleach", false)
-        )
+        ),
+        false
     ),
     Question(
         "Hard 9",
@@ -497,7 +536,8 @@ val hardQuestions = listOf(
             Question.Answer("Spike Spiegel", true),
             Question.Answer("Faye Valentine", false),
             Question.Answer("Edward Wong", false)
-        )
+        ),
+        false
     ),
     Question(
         "Hard 10",
@@ -509,7 +549,8 @@ val hardQuestions = listOf(
             Question.Answer("Batou", false),
             Question.Answer("Togusa", false),
             Question.Answer("Daisuke Aramaki", false)
-        )
+        ),
+        false
     ),
     Question(
         "Hard 11",
@@ -521,7 +562,8 @@ val hardQuestions = listOf(
             Question.Answer("Asta", false),
             Question.Answer("Kaneki Ken", true),
             Question.Answer("Freezer", false)
-        )
+        ),
+        false
     ),
     Question(
         "Hard 12",
@@ -533,7 +575,8 @@ val hardQuestions = listOf(
             Question.Answer("Death Note", false),
             Question.Answer("Steins;Gate", false),
             Question.Answer("Paranoia Agent", false)
-        )
+        ),
+        false
     ),
     Question(
         "Hard 13",
@@ -545,7 +588,8 @@ val hardQuestions = listOf(
             Question.Answer("Digimon", true),
             Question.Answer("Yu-Gi-Oh!", false),
             Question.Answer("Cardcaptor Sakura", false)
-        )
+        ),
+        false
     ),
     Question(
         "Hard 14",
@@ -557,7 +601,8 @@ val hardQuestions = listOf(
             Question.Answer("Kohta", false),
             Question.Answer("Nana", false),
             Question.Answer("Mayu", false)
-        )
+        ),
+        false
     ),
     Question(
         "Hard 15",
@@ -569,7 +614,7 @@ val hardQuestions = listOf(
             Question.Answer("Fate/Zero", true),
             Question.Answer("Fate/Apocrypha", false),
             Question.Answer("Fate/Grand Order", false)
-        )
+        ),
+        false
     )
 )
-

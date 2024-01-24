@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavHostController
+import com.example.trivialapp_sergiherrador.Model.goldenColor
 import com.example.trivialapp_sergiherrador.R
 import com.example.trivialapp_sergiherrador.ViewModel.MenuViewModel
 import com.example.trivialapp_sergiherrador.ViewModel.SettingsViewModel
@@ -79,7 +80,7 @@ fun MenuScreen(
                 Button(
                     onClick = { navController.navigate("SettingsScreen") },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.Magenta
+                        containerColor = if (settingsViewModel.darkMode) goldenColor else Color.Magenta
                     ),
                     modifier = Modifier
                         .weight(1f)
@@ -93,7 +94,7 @@ fun MenuScreen(
                         menuMainViewModel.modifyShow(true)
                     },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.Magenta
+                        containerColor = if (settingsViewModel.darkMode) goldenColor else Color.Magenta
                     ),
                     modifier = Modifier
                         .weight(1f)
@@ -108,24 +109,34 @@ fun MenuScreen(
             Button(
                 onClick = { navController.navigate("GameScreen") },
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.Magenta
+                    containerColor = if (settingsViewModel.darkMode) goldenColor else Color.Magenta
                 ),
                 modifier = Modifier
                     .fillMaxWidth(0.5f)
                     .padding(top = 20.dp)
             ) {
-                Text(text = "Play", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                Text(
+                    text = "Play",
+                    color = if (settingsViewModel.darkMode) Color.Black else Color.White,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold
+                )
             }
 
             Button(
                 onClick = { navController.navigate("SettingsScreen") },
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.Magenta
+                    containerColor = if (settingsViewModel.darkMode) goldenColor else Color.Magenta
                 ),
                 modifier = Modifier
                     .fillMaxWidth(0.5f)
             ) {
-                Text(text = "Settings", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                Text(
+                    text = "Settings",
+                    color = if (settingsViewModel.darkMode) Color.Black else Color.White,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold
+                )
             }
 
             Button(
@@ -133,12 +144,17 @@ fun MenuScreen(
                     menuMainViewModel.modifyShow(true)
                 },
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.Magenta
+                    containerColor = if (settingsViewModel.darkMode) goldenColor else Color.Magenta
                 ),
                 modifier = Modifier
                     .fillMaxWidth(0.5f)
             ) {
-                Text(text = "Help", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                Text(
+                    text = "Help",
+                    color = if (settingsViewModel.darkMode) Color.Black else Color.White,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold
+                )
             }
         }
 

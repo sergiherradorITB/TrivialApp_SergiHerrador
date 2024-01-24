@@ -2,6 +2,7 @@ package com.example.trivialapp_sergiherrador.View
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,6 +25,7 @@ import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -51,56 +53,65 @@ fun SettingsScreen(
             .verticalScroll(rememberScrollState())
             .padding(16.dp)
     ) {
-        // Texto de dificultad
-        Text(
-            text = "Difficulty:",
-            color = textColor,
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        // DropdownMenu
-        Box(
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color(255f / 255, 0f / 255, 238f / 255, 0.1f))
+                .padding(vertical = 8.dp),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            OutlinedTextField(
-                value = settingsViewModel.dificultad,
-                onValueChange = { settingsViewModel.modifyDifficulty(it) },
-                enabled = false,
-                readOnly = true,
-                modifier = Modifier
-                    .clickable { settingsViewModel.modifyExpanded(true) }
-                    .fillMaxWidth()
-                    .background(
-                        if (settingsViewModel.darkMode) {
-                            Color(255f / 255, 58f / 255, 58f / 255, 0.9f)
-                        } else {
-                            Color(255f / 255, 0f / 255, 238f / 255, 0.8f)
-                        }
-                    )
+            // Texto de dificultad
+            Text(
+                text = "Difficulty:",
+                color = textColor,
+                modifier = Modifier.fillMaxWidth(0.3f)
             )
-            DropdownMenu(
-                expanded = settingsViewModel.expanded,
-                onDismissRequest = { settingsViewModel.modifyExpanded(false) },
+
+            // DropdownMenu
+            Box(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .background(
-                        if (settingsViewModel.darkMode) {
-                            Color(255f / 255, 58f / 255, 58f / 255, 0.6f)
-                        } else {
-                            Color(255f / 255, 0f / 255, 238f / 255, 0.1f)
-                        }
-                    )
+                    .background(Color(255f / 255, 0f / 255, 238f / 255, 0.1f))
+                    .fillMaxWidth(0.8f)
             ) {
-                difficulties.forEach { difficulty ->
-                    DropdownMenuItem(
-                        text = { Text(text = difficulty, color = textColor) },
-                        onClick = {
-                            settingsViewModel.modifyExpanded(false)
-                            settingsViewModel.modifyDifficulty(difficulty)
-                        }
-                    )
+                // Resto del contenido del DropdownMenu
+                OutlinedTextField(
+                    value = settingsViewModel.dificultad,
+                    onValueChange = { settingsViewModel.modifyDifficulty(it) },
+                    enabled = false,
+                    readOnly = true,
+                    modifier = Modifier
+                        .clickable { settingsViewModel.modifyExpanded(true) }
+                        .fillMaxWidth()
+                        .background(
+                            if (settingsViewModel.darkMode) {
+                                Color(255f / 255, 58f / 255, 58f / 255, 0.9f)
+                            } else {
+                                Color(255f / 255, 0f / 255, 238f / 255, 0.8f)
+                            }
+                        )
+                )
+                DropdownMenu(
+                    expanded = settingsViewModel.expanded,
+                    onDismissRequest = { settingsViewModel.modifyExpanded(false) },
+                    modifier = Modifier
+                        .fillMaxWidth(0.512f)
+                        .background(
+                            if (settingsViewModel.darkMode) {
+                                Color(255f / 255, 58f / 255, 58f / 255, 0.6f)
+                            } else {
+                                Color(255f / 255, 0f / 255, 238f / 255, 0.1f)
+                            }
+                        )
+                ) {
+                    difficulties.forEach { difficulty ->
+                        DropdownMenuItem(
+                            text = { Text(text = difficulty, color = textColor) },
+                            onClick = {
+                                settingsViewModel.modifyExpanded(false)
+                                settingsViewModel.modifyDifficulty(difficulty)
+                            }
+                        )
+                    }
                 }
             }
         }
@@ -108,12 +119,16 @@ fun SettingsScreen(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 8.dp)
+                .padding(vertical = 8.dp),
+            horizontalArrangement = Arrangement.Center,
+            // verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = "Rounds: ", color = textColor)
+            Text(text = "Difficulty:",
+                modifier = Modifier.fillMaxWidth(0.3f),
+                color = textColor)
             var roundsAvailable: MutableList<Int> = mutableListOf(5, 10, 15)
             Column(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(0.7f)
             ) {
                 (roundsAvailable).forEach { rounds ->
                     Row(
@@ -126,7 +141,7 @@ fun SettingsScreen(
                             onCheckedChange = {
                                 settingsViewModel.modifyRondas(if (it) rounds else settingsViewModel.rondas)
                             },
-                            modifier = Modifier.padding(4.dp)
+                            modifier = Modifier.padding( start = 4.dp)
                         )
                         Text(
                             text = "$rounds",
@@ -142,9 +157,11 @@ fun SettingsScreen(
                 .fillMaxWidth()
                 .padding(vertical = 8.dp)
         ) {
-            Text(text = "Temps: ", color = textColor)
+            Text(text = "Temps: ",
+                modifier = Modifier.fillMaxWidth(0.3f),
+                color = textColor)
             Column(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(0.7f)
             ) {
                 Slider(
                     value = settingsViewModel.sliderValue,

@@ -1,5 +1,6 @@
 package com.example.trivialapp_sergiherrador.ViewModel
 
+import android.annotation.SuppressLint
 import android.os.CountDownTimer
 import android.widget.Toast
 import androidx.compose.runtime.getValue
@@ -22,7 +23,7 @@ import kotlinx.coroutines.launch
 // ViewModel --> Aquí se ponen variables y funciones para cambiarlas
 
 class GameViewModel : ViewModel() {
-    var actualRound: Int by mutableIntStateOf(0)
+    var actualRound: Int by mutableIntStateOf(1)
         private set
     var allQuestions by mutableStateOf(easyQuestions + mediumQuestions + hardQuestions)
         private set
@@ -48,36 +49,63 @@ class GameViewModel : ViewModel() {
         private set
 
 
-    // Método para obtener la pregunta actual
+    @SuppressLint("NewApi")
     fun getCurrentQuestion(settingsViewModel: SettingsViewModel): Question {
         var respuesta: Question
         when (settingsViewModel.dificultad) {
             "Easy" -> {
+                val allEasyQuestionsAnswered = easyQuestions.all { it.respondida }
+
+                if (allEasyQuestionsAnswered) {
+                    easyQuestions.forEach { it.respondida = false }
+                }
+
                 respuesta = easyQuestions.random()
+
+                if (respuesta.respondida) {
+                    respuesta = getCurrentQuestion(settingsViewModel)
+                }
             }
 
             "Medium" -> {
-                respuesta = mediumQuestions.random()
+                val allEasyQuestionsAnswered = mediumQuestions.all { it.respondida }
+
+                if (allEasyQuestionsAnswered) {
+                    mediumQuestions.forEach { it.respondida = false }
+                }
+
+                respuesta = easyQuestions.random()
+
+                if (respuesta.respondida) {
+                    respuesta = getCurrentQuestion(settingsViewModel)
+                }
             }
 
             "Hard" -> {
-                respuesta = hardQuestions.random()
-            }
+                val allEasyQuestionsAnswered = hardQuestions.all { it.respondida }
 
+                if (allEasyQuestionsAnswered) {
+                    hardQuestions.forEach { it.respondida = false }
+                }
+
+                respuesta = hardQuestions.random()
+
+                if (respuesta.respondida) {
+                    respuesta = getCurrentQuestion(settingsViewModel)
+                }
+            }
             else -> {
                 respuesta = allQuestions.random()
             }
         }
-
+        respuesta.respondida = true
         return respuesta
     }
-
 
     // Método para iniciar el juego
     fun startGame(settingsViewModel: SettingsViewModel) {
         // Si el juego ya se inició, no hagas nada
         if (gameStarted) {
-
             return
         }
 
@@ -128,7 +156,6 @@ class GameViewModel : ViewModel() {
     }
 
     companion object {
-        private const val TIMER_DURATION = 10000L // Duración del temporizador en milisegundos (10 segundos)
         private const val TIMER_INTERVAL = 1000L  // Intervalo de actualización en milisegundos (1 segundo)
     }
 
@@ -137,7 +164,7 @@ class GameViewModel : ViewModel() {
         isCorrectAnswer = false
         currentQuestionIndex++
 
-        if (actualRound >= settingsViewModel.rondas) {
+        if (actualRound > settingsViewModel.rondas) {
             // El juego ha terminado
             gameFinished = true
         }
@@ -161,7 +188,7 @@ class GameViewModel : ViewModel() {
     }
 
     fun resetGame() {
-        actualRound = 0
+        actualRound = 1
         isCorrectAnswer = false
         gameFinished = false
         fallos = 0
@@ -169,5 +196,7 @@ class GameViewModel : ViewModel() {
         currentQuestionIndex = 0
         progress = 0f
         gameStarted = false
+
+        allQuestions.forEach { it.respondida = false }
     }
 }
