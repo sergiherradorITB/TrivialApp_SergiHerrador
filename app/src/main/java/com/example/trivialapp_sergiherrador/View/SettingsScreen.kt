@@ -2,7 +2,6 @@ package com.example.trivialapp_sergiherrador.View
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,7 +24,6 @@ import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -53,27 +51,19 @@ fun SettingsScreen(
             .verticalScroll(rememberScrollState())
             .padding(16.dp)
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+        Row {
             // Texto de dificultad
             Text(
                 text = "Difficulty:",
                 color = textColor,
                 modifier = Modifier.fillMaxWidth(0.3f)
             )
-
             // DropdownMenu
             Box(
                 modifier = Modifier
                     .background(Color(255f / 255, 0f / 255, 238f / 255, 0.1f))
                     .fillMaxWidth(0.8f)
             ) {
-                // Resto del contenido del DropdownMenu
                 OutlinedTextField(
                     value = settingsViewModel.dificultad,
                     onValueChange = { settingsViewModel.modifyDifficulty(it) },
@@ -119,16 +109,12 @@ fun SettingsScreen(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 8.dp),
-            horizontalArrangement = Arrangement.Center,
-            // verticalAlignment = Alignment.CenterVertically
+                .padding(vertical = 8.dp)
         ) {
-            Text(text = "Difficulty:",
-                modifier = Modifier.fillMaxWidth(0.3f),
-                color = textColor)
+            Text(text = "Rounds: ", color = textColor)
             var roundsAvailable: MutableList<Int> = mutableListOf(5, 10, 15)
             Column(
-                modifier = Modifier.fillMaxWidth(0.7f)
+                modifier = Modifier.fillMaxWidth()
             ) {
                 (roundsAvailable).forEach { rounds ->
                     Row(
@@ -141,7 +127,7 @@ fun SettingsScreen(
                             onCheckedChange = {
                                 settingsViewModel.modifyRondas(if (it) rounds else settingsViewModel.rondas)
                             },
-                            modifier = Modifier.padding( start = 4.dp)
+                            modifier = Modifier.padding(4.dp)
                         )
                         Text(
                             text = "$rounds",
@@ -157,11 +143,9 @@ fun SettingsScreen(
                 .fillMaxWidth()
                 .padding(vertical = 8.dp)
         ) {
-            Text(text = "Temps: ",
-                modifier = Modifier.fillMaxWidth(0.3f),
-                color = textColor)
+            Text(text = "Temps: ", color = textColor)
             Column(
-                modifier = Modifier.fillMaxWidth(0.7f)
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Slider(
                     value = settingsViewModel.sliderValue,
@@ -223,3 +207,4 @@ fun SettingsScreen(
         }
     }
 }
+

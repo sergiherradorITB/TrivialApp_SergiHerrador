@@ -74,7 +74,7 @@ class GameViewModel : ViewModel() {
                     mediumQuestions.forEach { it.respondida = false }
                 }
 
-                respuesta = easyQuestions.random()
+                respuesta = mediumQuestions.random()
 
                 if (respuesta.respondida) {
                     respuesta = getCurrentQuestion(settingsViewModel)
@@ -196,7 +196,6 @@ class GameViewModel : ViewModel() {
         currentQuestionIndex = 0
         progress = 0f
         gameStarted = false
-
         allQuestions.forEach { it.respondida = false }
     }
 }

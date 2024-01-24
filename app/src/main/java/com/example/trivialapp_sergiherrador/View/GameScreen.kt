@@ -1,5 +1,7 @@
 package com.example.trivialapp_sergiherrador.View
 
+import android.graphics.Insets.add
+import android.os.Build.VERSION.SDK_INT
 import android.os.CountDownTimer
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -31,13 +33,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import coil.ImageLoader
+import coil.compose.rememberImagePainter
+import coil.decode.GifDecoder
+import coil.decode.ImageDecoderDecoder
+import coil.size.OriginalSize
 import com.example.trivialapp_sergiherrador.Model.goldenColor
 import com.example.trivialapp_sergiherrador.ViewModel.GameViewModel
 import com.example.trivialapp_sergiherrador.ViewModel.SettingsViewModel
+import java.nio.file.Files.size
 
 
 // ...
@@ -93,14 +102,13 @@ fun GameScreen(
             if (windowSize.widthSizeClass >= WindowWidthSizeClass.Medium) {
                 Row(modifier = Modifier.fillMaxSize()) {
                     // Image on the left
-                    Image(
+                    GifImage(
                         modifier = Modifier
                             .fillMaxWidth(0.4f)
                             .scale(1f, 1f)
                             .fillMaxHeight(1f)
                             .aspectRatio(1f),
-                        painter = painterResource(id = currentQuestion.questionImage),
-                        contentDescription = currentQuestion.questionName
+                        imageID = currentQuestion.questionImage
                     )
 
                     // Questions Column
@@ -157,13 +165,12 @@ fun GameScreen(
                         .fillMaxHeight(0.4f),
                     contentAlignment = Alignment.Center
                 ) {
-                    Image(
+                    GifImage(
                         modifier = Modifier
                             .fillMaxSize()
                             .scale(1f, 1f)
                             .aspectRatio(1f),
-                        painter = painterResource(id = currentQuestion.questionImage),
-                        contentDescription = currentQuestion.questionName
+                        imageID = currentQuestion.questionImage
                     )
                 }
                 Column(
@@ -279,4 +286,32 @@ fun GameScreen(
             }
         }
     }
+}
+
+@Composable
+fun GifImage(
+    modifier: Modifier = Modifier,
+    imageID: Int
+){
+    val context = LocalContext.current
+    val imageLoader = ImageLoader.Builder(context)
+        .componentRegistry {
+            if (SDK_INT >= 28) {
+                add(ImageDecoderDecoder(context))
+            } else {
+                add(GifDecoder())
+            }
+        }
+        .build()
+    Image(
+        painter = rememberImagePainter(
+            imageLoader = imageLoader,
+            data = imageID,
+            builder = {
+                size(OriginalSize)
+            }
+        ),
+        contentDescription = null,
+        modifier = modifier
+    )
 }

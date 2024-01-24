@@ -219,8 +219,46 @@ val easyQuestions = listOf(
             Question.Answer("Satoshi Kon", false)
         ),
         false
+    ),
+    Question(
+        "Easy 16",
+        "¿En qué anime aparece el 'Chika Dance'?",
+        R.drawable.chika,
+        Question.Difficulty.EASY,
+        listOf(
+            Question.Answer("Kaguya-sama", false),
+            Question.Answer("Fujiwara Chika", false),
+            Question.Answer("Hell Paradise", true),
+            Question.Answer("Satoshi Kon", false)
+        ),
+        false
+    ),
+    Question(
+        "Easy 17",
+        "¿Cuál es el nombre del protagonista en 'One Punch Man'?",
+        R.drawable.one_punch_man,
+        Question.Difficulty.EASY,
+        listOf(
+            Question.Answer("Genos", false),
+            Question.Answer("Mumen Rider", false),
+            Question.Answer("Saitama", true),
+            Question.Answer("Boros", false)
+        ),
+        false
+    ),
+    Question(
+        "Easy 18",
+        "¿En qué serie de anime los personajes son cazadores de demonios?",
+        R.drawable.demon_slayer,
+        Question.Difficulty.EASY,
+        listOf(
+            Question.Answer("Black Clover", false),
+            Question.Answer("Kimetsu no Yaiba", true),
+            Question.Answer("Fairy Tail", false),
+            Question.Answer("Bleach", false)
+        ),
+        false
     )
-
 )
 
 val mediumQuestions = listOf(
@@ -416,6 +454,32 @@ val mediumQuestions = listOf(
             Question.Answer("Titanic", false),
             Question.Answer("Scott Pilgrim vs the World", true),
             Question.Answer("Twisted Metals", false)
+        ),
+        false
+    ),
+    Question(
+        "Medium 16",
+        "En el anime 'Nichijou', ¿cuál es el nombre del gato que a menudo se encuentra en situaciones cómicas?",
+        R.drawable.nichijou,
+        Question.Difficulty.MEDIUM,
+        listOf(
+            Question.Answer("Lucky Star", false),
+            Question.Answer("Azumanga Daioh", false),
+            Question.Answer("Nichijou", true),
+            Question.Answer("K-On!", false)
+        ),
+        false
+    ),
+    Question(
+        "Medium 17",
+        "¿En cuál anime salen estos dos JOROBAOS?",
+        R.drawable.jjk,
+        Question.Difficulty.MEDIUM,
+        listOf(
+            Question.Answer("Jujutsu", true),
+            Question.Answer("Azumane Kun", false),
+            Question.Answer("Black Clover", true),
+            Question.Answer("Alexandru", false)
         ),
         false
     )
@@ -614,6 +678,32 @@ val hardQuestions = listOf(
             Question.Answer("Fate/Zero", true),
             Question.Answer("Fate/Apocrypha", false),
             Question.Answer("Fate/Grand Order", false)
+        ),
+        false
+    ),
+    Question(
+        "Hard 16",
+        "¿En qué anime aparece esta chica con la ametralladora?",
+        R.drawable.nichijou2,
+        Question.Difficulty.HARD,
+        listOf(
+            Question.Answer("Black Lagoon", false),
+            Question.Answer("Jormungand", false),
+            Question.Answer("Nichijou", true),
+            Question.Answer("Elfen Lied", false)
+        ),
+        false
+    ),
+    Question(
+        "Hard 17",
+        "En el anime 'Chuunibyou demo Koi ga Shitai!', ¿qué personaje realiza el 'Rikka Dance'?",
+        R.drawable.rikkadance,
+        Question.Difficulty.HARD,
+        listOf(
+            Question.Answer("Yuta Togashi", false),
+            Question.Answer("Nibutani Shinka", false),
+            Question.Answer("Kumin Tsuyuri", false),
+            Question.Answer("Rikka Takanashi", true)
         ),
         false
     )
