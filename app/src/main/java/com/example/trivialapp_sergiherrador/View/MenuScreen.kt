@@ -68,7 +68,7 @@ fun MenuScreen(
                 Button(
                     onClick = { navController.navigate("GameScreen") },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.Magenta
+                        containerColor = if (settingsViewModel.darkMode) goldenColor else Color.Magenta
                     ),
                     modifier = Modifier
                         .weight(1f)

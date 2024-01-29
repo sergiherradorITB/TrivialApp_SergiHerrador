@@ -1,20 +1,27 @@
 package com.example.trivialapp_sergiherrador.View
 
+import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ButtonDefaults.buttonColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.navigation.NavController
 import com.example.trivialapp_sergiherrador.Model.goldenColor
 import com.example.trivialapp_sergiherrador.ViewModel.GameViewModel
@@ -62,7 +69,9 @@ fun ResultScreen(
 
             Button(
                 onClick = { gameViewModel.resetGame(); navController.navigate("MenuScreen") },
-                modifier = Modifier.padding(top = 16.dp),
+                modifier = Modifier.padding(top = 16.dp)
+                    .fillMaxWidth(0.5f)
+                ,
                 colors = ButtonDefaults.buttonColors(
                     containerColor = if (settingsViewModel.darkMode) goldenColor else Color.Magenta
                 )
@@ -72,6 +81,30 @@ fun ResultScreen(
                     color = if (settingsViewModel.darkMode) Color.Black else Color.White
                 )
             }
+            ShareButton(text = "Check out my TrivialApp results!", context = LocalContext.current, settingsViewModel)
+
         }
+    }
+}
+
+@Composable
+fun ShareButton(text: String, context: Context, settingsViewModel:SettingsViewModel) {
+    val sendIntent = Intent(Intent.ACTION_SEND).apply {
+        putExtra(Intent.EXTRA_TEXT, text)
+        type = "text/plain"
+    }
+    val shareIntent = Intent.createChooser(sendIntent, null)
+
+    Button(
+        modifier = Modifier
+            .fillMaxWidth(0.5f),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = if (settingsViewModel.darkMode) goldenColor else Color.Magenta
+        ),
+        onClick = {
+            ContextCompat.startActivity(context, shareIntent, null)
+        },
+    ) {
+        Text("Share")
     }
 }
