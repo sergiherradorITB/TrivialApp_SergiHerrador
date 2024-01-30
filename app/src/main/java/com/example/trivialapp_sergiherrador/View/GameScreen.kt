@@ -35,6 +35,8 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -87,14 +89,16 @@ fun GameScreen(
             ) {
                 Text(
                     text = "Round " + gameViewModel.actualRound + "/" + settingsViewModel.rondas,
-                    color = if (settingsViewModel.darkMode) Color.White else Color.Black
+                    color = if (settingsViewModel.darkMode) Color.White else Color(245,245,220),
+                    fontWeight = FontWeight.Bold
                 )
                 Text(
                     text = currentQuestion.questionText,
                     modifier = Modifier
                         .fillMaxHeight(0.6f),
                     fontSize = 20.sp,
-                    color = if (settingsViewModel.darkMode) Color.White else Color.Black
+                    color = if (settingsViewModel.darkMode) Color.White else Color.Black,
+                    textAlign = TextAlign.Center
                 )
 
             }
@@ -145,7 +149,9 @@ fun GameScreen(
                                 ) {
                                     Text(
                                         text = respuestas[i].answerText,
-                                        color = if (settingsViewModel.darkMode) Color.Black else Color.White
+                                        color = if (settingsViewModel.darkMode) Color.Black else Color.White,
+                                        textAlign = TextAlign.Center
+
                                     )
                                 }
                             }
@@ -175,107 +181,80 @@ fun GameScreen(
                 }
                 Column(
                     modifier = Modifier
-                        .fillMaxHeight(0.75f)
+                        .fillMaxHeight(1f)
                         .padding(top = 16.dp)
                         .fillMaxWidth(),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
+                    // Respuestas en botones
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
+                            .padding(bottom = 10.dp)
                             .padding(horizontal = 16.dp),
                         horizontalArrangement = Arrangement.SpaceEvenly
                     ) {
-                        // Utilizar los textos de las respuestas en los botones
-                        Button(
-                            onClick = {
-                                respuestas = currentQuestion.answers
-                                gameViewModel.checkAnswer(
-                                    respuestas[0],
-                                    settingsViewModel
+                        // Botones 1 y 2
+                        for (i in 0 until 2) {
+                            Button(
+                                onClick = {
+                                    respuestas = currentQuestion.answers
+                                    gameViewModel.checkAnswer(respuestas[i], settingsViewModel)
+                                },
+                                modifier = Modifier
+                                    .weight(0.4f)
+                                    .padding(end = 8.dp)
+                                    .fillMaxWidth(),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = if (settingsViewModel.darkMode) goldenColor else Color.Magenta
+                                ),
+                            ) {
+                                Text(
+                                    text = respuestas[i].answerText,
+                                    color = if (settingsViewModel.darkMode) Color.Black else Color.White,
+                                    textAlign = TextAlign.Center
+
                                 )
-                            },
-                            modifier = Modifier
-                                .weight(0.4f)
-                                .padding(end = 8.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = if (settingsViewModel.darkMode) goldenColor else Color.Magenta
-                            ),
-                        ) {
-                            Text(
-                                text = respuestas[0].answerText,
-                                color = if (settingsViewModel.darkMode) Color.Black else Color.White
-                            )
-                        }
-                        Button(
-                            onClick = {
-                                respuestas = currentQuestion.answers
-                                gameViewModel.checkAnswer(
-                                    respuestas[1],
-                                    settingsViewModel
-                                )
-                            },
-                            modifier = Modifier
-                                .weight(0.4f)
-                                .padding(end = 8.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = if (settingsViewModel.darkMode) goldenColor else Color.Magenta
-                            ),
-                        ) {
-                            Text(
-                                text = respuestas[1].answerText,
-                                color = if (settingsViewModel.darkMode) Color.Black else Color.White
-                            )
+                            }
                         }
                     }
+
+                    // Segunda fila de botones
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
+                            .padding(bottom = 10.dp)
                             .padding(horizontal = 16.dp),
                         horizontalArrangement = Arrangement.SpaceEvenly
                     ) {
-                        Button(
-                            onClick = {
-                                respuestas = currentQuestion.answers
-                                gameViewModel.checkAnswer(
-                                    respuestas[2],
-                                    settingsViewModel
+                        // Botones 3 y 4
+                        for (i in 2 until 4) {
+                            Button(
+                                onClick = {
+                                    respuestas = currentQuestion.answers
+                                    gameViewModel.checkAnswer(respuestas[i], settingsViewModel)
+                                },
+                                modifier = Modifier
+                                    .weight(0.4f)
+                                    .fillMaxHeight()
+                                    .padding(end = 8.dp)
+                                    .fillMaxWidth(),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = if (settingsViewModel.darkMode) goldenColor else Color.Magenta
+                                ),
+                            ) {
+                                Text(
+                                    text = respuestas[i].answerText,
+                                    color = if (settingsViewModel.darkMode) Color.Black else Color.White,
+                                    textAlign = TextAlign.Center
+
                                 )
-                            },
-                            modifier = Modifier
-                                .weight(0.4f)
-                                .padding(end = 8.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = if (settingsViewModel.darkMode) goldenColor else Color.Magenta
-                            ),
-                        ) {
-                            Text(
-                                text = respuestas[2].answerText,
-                                color = if (settingsViewModel.darkMode) Color.Black else Color.White
-                            )
-                        }
-                        Button(
-                            onClick = {
-                                respuestas = currentQuestion.answers
-                                gameViewModel.checkAnswer(
-                                    respuestas[3],
-                                    settingsViewModel
-                                )
-                            },
-                            modifier = Modifier
-                                .weight(0.4f)
-                                .padding(end = 8.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = if (settingsViewModel.darkMode) goldenColor else Color.Magenta
-                            ),
-                        ) {
-                            Text(
-                                text = respuestas[3].answerText,
-                                color = if (settingsViewModel.darkMode) Color.Black else Color.White
-                            )
+                            }
                         }
                     }
+
+                    // Indicador de progreso lineal
                     LinearProgressIndicator(
                         progress = gameViewModel.progress,
                         modifier = Modifier

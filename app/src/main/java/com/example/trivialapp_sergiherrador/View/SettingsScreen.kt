@@ -74,7 +74,7 @@ fun SettingsScreen(
                         .fillMaxWidth()
                         .background(
                             if (settingsViewModel.darkMode) {
-                                Color(255f / 255, 58f / 255, 58f / 255, 0.9f)
+                                goldenColor
                             } else {
                                 Color(255f / 255, 0f / 255, 238f / 255, 0.8f)
                             }
@@ -87,7 +87,7 @@ fun SettingsScreen(
                         .fillMaxWidth(0.512f)
                         .background(
                             if (settingsViewModel.darkMode) {
-                                Color(255f / 255, 58f / 255, 58f / 255, 0.6f)
+                                goldenColor
                             } else {
                                 Color(255f / 255, 0f / 255, 238f / 255, 0.1f)
                             }
@@ -95,7 +95,7 @@ fun SettingsScreen(
                 ) {
                     difficulties.forEach { difficulty ->
                         DropdownMenuItem(
-                            text = { Text(text = difficulty, color = textColor) },
+                            text = { Text(text = difficulty, color = Color.Black) },
                             onClick = {
                                 settingsViewModel.modifyExpanded(false)
                                 settingsViewModel.modifyDifficulty(difficulty)

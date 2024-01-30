@@ -452,7 +452,7 @@ val mediumQuestions = listOf(
         listOf(
             Question.Answer("Acero Puro", false),
             Question.Answer("Titanic", false),
-            Question.Answer("Scott Pilgrim vs the World", true),
+            Question.Answer("Scott Pilgrim", true),
             Question.Answer("Twisted Metals", false)
         ),
         false
@@ -533,7 +533,7 @@ val hardQuestions = listOf(
         listOf(
             Question.Answer("Attack on Titan", false),
             Question.Answer("Tokyo Ghoul", false),
-            Question.Answer("Fullmetal Alchemist: Brotherhood", true),
+            Question.Answer("Fullmetal Alch..", true),
             Question.Answer("Hunter x Hunter", false)
         ),
         false

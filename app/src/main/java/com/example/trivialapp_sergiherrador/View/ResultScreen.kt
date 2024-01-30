@@ -69,9 +69,9 @@ fun ResultScreen(
 
             Button(
                 onClick = { gameViewModel.resetGame(); navController.navigate("MenuScreen") },
-                modifier = Modifier.padding(top = 16.dp)
-                    .fillMaxWidth(0.5f)
-                ,
+                modifier = Modifier
+                    .padding(top = 16.dp)
+                    .fillMaxWidth(0.5f),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = if (settingsViewModel.darkMode) goldenColor else Color.Magenta
                 )
@@ -81,14 +81,18 @@ fun ResultScreen(
                     color = if (settingsViewModel.darkMode) Color.Black else Color.White
                 )
             }
-            ShareButton(text = "Check out my TrivialApp results!", context = LocalContext.current, settingsViewModel)
+            ShareButton(
+                text = "Comparte tu resultado \n Tienes ${gameViewModel.aciertos} aciertos\nTienes ${gameViewModel.fallos} fallos",
+                context = LocalContext.current,
+                settingsViewModel
+            )
 
         }
     }
 }
 
 @Composable
-fun ShareButton(text: String, context: Context, settingsViewModel:SettingsViewModel) {
+fun ShareButton(text: String, context: Context, settingsViewModel: SettingsViewModel) {
     val sendIntent = Intent(Intent.ACTION_SEND).apply {
         putExtra(Intent.EXTRA_TEXT, text)
         type = "text/plain"
@@ -105,6 +109,9 @@ fun ShareButton(text: String, context: Context, settingsViewModel:SettingsViewMo
             ContextCompat.startActivity(context, shareIntent, null)
         },
     ) {
-        Text("Share")
+        Text(
+            "Share",
+            color = if (settingsViewModel.darkMode) Color.Black else Color.White
+        )
     }
 }
