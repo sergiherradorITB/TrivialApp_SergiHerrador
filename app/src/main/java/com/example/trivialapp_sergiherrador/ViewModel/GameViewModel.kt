@@ -14,15 +14,19 @@ import com.example.trivialapp_sergiherrador.Model.Question
 import com.example.trivialapp_sergiherrador.Model.easyQuestions
 import com.example.trivialapp_sergiherrador.Model.hardQuestions
 import com.example.trivialapp_sergiherrador.Model.mediumQuestions
-import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 // ViewModel --> Aquí se ponen variables y funciones para cambiarlas
 
 class GameViewModel : ViewModel() {
+    var showBackground:Boolean by mutableStateOf(false)
+        private set
+
     var actualRound: Int by mutableIntStateOf(1)
         private set
     var allQuestions by mutableStateOf(easyQuestions + mediumQuestions + hardQuestions)
@@ -159,25 +163,38 @@ class GameViewModel : ViewModel() {
         private const val TIMER_INTERVAL = 1000L  // Intervalo de actualización en milisegundos (1 segundo)
     }
 
+    // Dentro de la clase GameViewModel
+    var buttonEnabled by mutableStateOf(true)
+
+    var show by mutableStateOf(false)
+
     fun moveToNextQuestion(settingsViewModel: SettingsViewModel) {
-        actualRound++
-        isCorrectAnswer = false
-        currentQuestionIndex++
+        GlobalScope.launch {
+            delay(2000) // Ajusta el tiempo de espera según tus necesidades
+            withContext(Dispatchers.Main) {
+                buttonEnabled = true // Habilita los botones antes de cargar la nueva pregunta
+                actualRound++
+                isCorrectAnswer = false
+                currentQuestionIndex++
 
-        if (actualRound > settingsViewModel.rondas) {
-            // El juego ha terminado
-            gameFinished = true
+                if (actualRound > settingsViewModel.rondas) {
+                    // El juego ha terminado
+                    gameFinished = true
+                }
+
+                progress = 0.0f
+
+                // Utiliza la lógica existente para obtener la siguiente pregunta según la dificultad actual
+                currentQuestion = getCurrentQuestion(settingsViewModel)
+
+                cancelTimer()
+                startTimer(settingsViewModel)
+
+            }
         }
-
-        progress = 0.0f
-
-        // Utiliza la lógica existente para obtener la siguiente pregunta según la dificultad actual
-        currentQuestion = getCurrentQuestion(settingsViewModel)
-
-        cancelTimer()
     }
 
-    fun checkAnswer(answer: Question.Answer, settingsViewModel: SettingsViewModel) {
+    fun checkAnswer(answer: Question.Answer, settingsViewModel: SettingsViewModel):Boolean {
         isCorrectAnswer = answer.isCorrect
         if (isCorrectAnswer) {
             aciertos++
@@ -185,6 +202,7 @@ class GameViewModel : ViewModel() {
             fallos++
         }
         moveToNextQuestion(settingsViewModel)
+        return isCorrectAnswer
     }
 
     fun resetGame() {

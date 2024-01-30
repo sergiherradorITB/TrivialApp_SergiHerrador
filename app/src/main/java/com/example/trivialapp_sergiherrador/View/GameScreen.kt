@@ -28,6 +28,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -60,19 +61,22 @@ fun GameScreen(
     settingsViewModel: SettingsViewModel,
     windowSize: WindowSizeClass
 ) {
-
     var currentQuestion = gameViewModel.currentQuestion
     var respuestas = currentQuestion.answers
-
+    var show by remember {
+        mutableStateOf(false)
+    }
     // Verificar si el juego ha terminado
     if (gameViewModel.gameFinished) {
         navController.navigate("ResultScreen")
         gameViewModel.cancelTimer()
     } else {
-        LaunchedEffect(gameViewModel.actualRound) {
-            gameViewModel.startTimer(settingsViewModel)
+        LaunchedEffect(gameViewModel, settingsViewModel) {
+            if (!gameViewModel.gameStarted) {
+                gameViewModel.startTimer(settingsViewModel)
+                gameViewModel.startGame(settingsViewModel)
+            }
         }
-        gameViewModel.startGame(settingsViewModel)
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
@@ -89,7 +93,7 @@ fun GameScreen(
             ) {
                 Text(
                     text = "Round " + gameViewModel.actualRound + "/" + settingsViewModel.rondas,
-                    color = if (settingsViewModel.darkMode) Color.White else Color(245,245,220),
+                    color = if (settingsViewModel.darkMode) Color.White else Color(245, 245, 220),
                     fontWeight = FontWeight.Bold
                 )
                 Text(
@@ -135,23 +139,40 @@ fun GameScreen(
                                 Button(
                                     onClick = {
                                         respuestas = currentQuestion.answers
-                                        gameViewModel.checkAnswer(
-                                            respuestas[i],
-                                            settingsViewModel
-                                        )
+                                        if (gameViewModel.buttonEnabled) { // Verifica si los botones están habilitados
+                                            gameViewModel.checkAnswer(
+                                                respuestas[i],
+                                                settingsViewModel
+                                            )
+                                            show = true
+                                            gameViewModel.buttonEnabled =
+                                                false // Deshabilita los botones después de hacer clic
+                                        }
                                     },
                                     modifier = Modifier
                                         .fillMaxWidth()
+                                        .background(
+                                            color = if (show) {
+                                                if (respuestas[i].isCorrect) Color.Green else Color.Red
+                                            } else {
+                                                Color.Transparent
+                                            }
+                                        )
                                         .padding(vertical = 1.dp),
                                     colors = ButtonDefaults.buttonColors(
-                                        containerColor = if (settingsViewModel.darkMode) goldenColor else Color.Magenta
+                                        containerColor = (if (settingsViewModel.darkMode && !show) goldenColor else if (!settingsViewModel.darkMode && !show) {
+                                            Color.Magenta
+                                        } else {
+                                            if (respuestas[i].isCorrect) Color.Green else Color.Red
+                                        })
                                     ),
+                                    enabled =
+                                    gameViewModel.buttonEnabled // Habilita o deshabilita el botón según el estado
                                 ) {
                                     Text(
                                         text = respuestas[i].answerText,
                                         color = if (settingsViewModel.darkMode) Color.Black else Color.White,
                                         textAlign = TextAlign.Center
-
                                     )
                                 }
                             }
@@ -271,7 +292,7 @@ fun GameScreen(
 fun GifImage(
     modifier: Modifier = Modifier,
     imageID: Int
-){
+) {
     val context = LocalContext.current
     val imageLoader = ImageLoader.Builder(context)
         .componentRegistry {

@@ -11,6 +11,7 @@ data class Question(
     val difficulty: Difficulty,
     val answers: List<Answer>,
     var respondida: Boolean
+
 ) {
     data class Answer(
         val answerText: String,
@@ -478,7 +479,7 @@ val mediumQuestions = listOf(
         listOf(
             Question.Answer("Jujutsu", true),
             Question.Answer("Azumane Kun", false),
-            Question.Answer("Black Clover", true),
+            Question.Answer("Black Clover", false),
             Question.Answer("Alexandru", false)
         ),
         false

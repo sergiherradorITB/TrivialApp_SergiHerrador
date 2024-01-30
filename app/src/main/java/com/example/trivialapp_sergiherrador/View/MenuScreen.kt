@@ -74,7 +74,9 @@ fun MenuScreen(
                         .weight(1f)
                         .fillMaxWidth(0.2f)
                 ) {
-                    Text(text = "Play", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                    Text(text = "Play", fontSize = 18.sp, fontWeight = FontWeight.Bold,
+                        color = if (settingsViewModel.darkMode) Color.Black else Color.White,
+                    )
                 }
 
                 Button(
@@ -86,7 +88,9 @@ fun MenuScreen(
                         .weight(1f)
                         .fillMaxWidth(0.2f)
                 ) {
-                    Text(text = "Settings", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                    Text(text = "Settings", fontSize = 18.sp, fontWeight = FontWeight.Bold,
+                        color = if (settingsViewModel.darkMode) Color.Black else Color.White,
+                    )
                 }
 
                 Button(
@@ -100,7 +104,9 @@ fun MenuScreen(
                         .weight(1f)
                         .fillMaxWidth(0.2f)
                 ) {
-                    Text(text = "Help", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                    Text(text = "Help", fontSize = 18.sp, fontWeight = FontWeight.Bold,
+                        color = if (settingsViewModel.darkMode) Color.Black else Color.White,
+                    )
                 }
             }
 
