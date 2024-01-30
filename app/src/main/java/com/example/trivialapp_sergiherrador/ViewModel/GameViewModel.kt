@@ -26,6 +26,9 @@ import kotlinx.coroutines.withContext
 class GameViewModel : ViewModel() {
     var showBackground:Boolean by mutableStateOf(false)
         private set
+    fun modifyShowBackground(valor:Boolean){
+        showBackground = valor
+    }
 
     var actualRound: Int by mutableIntStateOf(1)
         private set
@@ -169,6 +172,7 @@ class GameViewModel : ViewModel() {
     var show by mutableStateOf(false)
 
     fun moveToNextQuestion(settingsViewModel: SettingsViewModel) {
+        cancelTimer()
         GlobalScope.launch {
             delay(2000) // Ajusta el tiempo de espera según tus necesidades
             withContext(Dispatchers.Main) {
@@ -187,9 +191,8 @@ class GameViewModel : ViewModel() {
                 // Utiliza la lógica existente para obtener la siguiente pregunta según la dificultad actual
                 currentQuestion = getCurrentQuestion(settingsViewModel)
 
-                cancelTimer()
                 startTimer(settingsViewModel)
-
+                modifyShowBackground(false)
             }
         }
     }

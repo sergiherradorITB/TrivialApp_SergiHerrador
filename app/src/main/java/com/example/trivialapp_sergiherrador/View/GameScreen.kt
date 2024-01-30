@@ -63,9 +63,7 @@ fun GameScreen(
 ) {
     var currentQuestion = gameViewModel.currentQuestion
     var respuestas = currentQuestion.answers
-    var show by remember {
-        mutableStateOf(false)
-    }
+
     // Verificar si el juego ha terminado
     if (gameViewModel.gameFinished) {
         navController.navigate("ResultScreen")
@@ -144,7 +142,7 @@ fun GameScreen(
                                                 respuestas[i],
                                                 settingsViewModel
                                             )
-                                            show = true
+                                            gameViewModel.modifyShowBackground(true)
                                             gameViewModel.buttonEnabled =
                                                 false // Deshabilita los botones después de hacer clic
                                         }
@@ -152,7 +150,7 @@ fun GameScreen(
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .background(
-                                            color = if (show) {
+                                            color = if (gameViewModel.showBackground) {
                                                 if (respuestas[i].isCorrect) Color.Green else Color.Red
                                             } else {
                                                 Color.Transparent
@@ -160,7 +158,7 @@ fun GameScreen(
                                         )
                                         .padding(vertical = 1.dp),
                                     colors = ButtonDefaults.buttonColors(
-                                        containerColor = (if (settingsViewModel.darkMode && !show) goldenColor else if (!settingsViewModel.darkMode && !show) {
+                                        containerColor = (if (settingsViewModel.darkMode && !gameViewModel.showBackground) goldenColor else if (!settingsViewModel.darkMode && !gameViewModel.showBackground) {
                                             Color.Magenta
                                         } else {
                                             if (respuestas[i].isCorrect) Color.Green else Color.Red
@@ -221,23 +219,39 @@ fun GameScreen(
                             Button(
                                 onClick = {
                                     respuestas = currentQuestion.answers
-                                    gameViewModel.checkAnswer(respuestas[i], settingsViewModel)
+                                    if (gameViewModel.buttonEnabled) {
+                                        gameViewModel.checkAnswer(respuestas[i], settingsViewModel)
+                                        gameViewModel.modifyShowBackground(true)
+                                        gameViewModel.buttonEnabled = false
+                                    }
                                 },
                                 modifier = Modifier
                                     .weight(0.4f)
                                     .padding(end = 8.dp)
-                                    .fillMaxWidth(),
+                                    .fillMaxWidth()
+                                    .background(
+                                        color = if (gameViewModel.showBackground) {
+                                            if (respuestas[i].isCorrect) Color.Green else Color.Red
+                                        } else {
+                                            Color.Transparent
+                                        }
+                                    )
+                                    .padding(vertical = 1.dp),
                                 colors = ButtonDefaults.buttonColors(
-                                    containerColor = if (settingsViewModel.darkMode) goldenColor else Color.Magenta
+                                    containerColor = if (settingsViewModel.darkMode && !gameViewModel.showBackground) goldenColor
+                                    else if (!settingsViewModel.darkMode && !gameViewModel.showBackground) Color.Magenta
+                                    else if (respuestas[i].isCorrect) Color.Green
+                                    else Color.Red
                                 ),
+                                enabled = gameViewModel.buttonEnabled
                             ) {
                                 Text(
                                     text = respuestas[i].answerText,
                                     color = if (settingsViewModel.darkMode) Color.Black else Color.White,
                                     textAlign = TextAlign.Center
-
                                 )
                             }
+
                         }
                     }
 
@@ -254,24 +268,39 @@ fun GameScreen(
                             Button(
                                 onClick = {
                                     respuestas = currentQuestion.answers
-                                    gameViewModel.checkAnswer(respuestas[i], settingsViewModel)
+                                    if (gameViewModel.buttonEnabled) {
+                                        gameViewModel.checkAnswer(respuestas[i], settingsViewModel)
+                                        gameViewModel.modifyShowBackground(true)
+                                        gameViewModel.buttonEnabled = false
+                                    }
                                 },
                                 modifier = Modifier
                                     .weight(0.4f)
-                                    .fillMaxHeight()
                                     .padding(end = 8.dp)
-                                    .fillMaxWidth(),
+                                    .fillMaxWidth()
+                                    .background(
+                                        color = if (gameViewModel.showBackground) {
+                                            if (respuestas[i].isCorrect) Color.Green else Color.Red
+                                        } else {
+                                            Color.Transparent
+                                        }
+                                    )
+                                    .padding(vertical = 1.dp),
                                 colors = ButtonDefaults.buttonColors(
-                                    containerColor = if (settingsViewModel.darkMode) goldenColor else Color.Magenta
+                                    containerColor = if (settingsViewModel.darkMode && !gameViewModel.showBackground) goldenColor
+                                    else if (!settingsViewModel.darkMode && !gameViewModel.showBackground) Color.Magenta
+                                    else if (respuestas[i].isCorrect) Color.Green
+                                    else Color.Red
                                 ),
+                                enabled = gameViewModel.buttonEnabled
                             ) {
                                 Text(
                                     text = respuestas[i].answerText,
                                     color = if (settingsViewModel.darkMode) Color.Black else Color.White,
                                     textAlign = TextAlign.Center
-
                                 )
                             }
+
                         }
                     }
 
