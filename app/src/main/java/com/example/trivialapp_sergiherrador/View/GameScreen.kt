@@ -173,7 +173,7 @@ fun GameScreen(
                             if (gameViewModel.pillarProgress() in 0.0..1.0) {
                                 val formattedProgress = "%.0f".format(gameViewModel.pillarUpTime())
                                 Text(text = "$formattedProgress / ${"%.0f".format(settingsViewModel.sliderValue)}"
-                                , color = if (settingsViewModel.darkMode) goldenColor else Color.White)
+                                , color = if (settingsViewModel.darkMode) goldenColor else Color.Black)
                             }
                         }
                     }
