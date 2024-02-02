@@ -107,7 +107,6 @@ fun GameScreen(
             // Main Content
             if (windowSize.widthSizeClass >= WindowWidthSizeClass.Medium) {
                 Row(modifier = Modifier.fillMaxSize()) {
-                    // Image on the left
                     GifImage(
                         modifier = Modifier
                             .fillMaxWidth(0.4f)
@@ -129,6 +128,7 @@ fun GameScreen(
                         Column(
                             modifier = Modifier
                                 .fillMaxWidth()
+                                .fillMaxHeight()
                                 .padding(horizontal = 16.dp),
                             verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
@@ -137,35 +137,25 @@ fun GameScreen(
                                 Button(
                                     onClick = {
                                         respuestas = currentQuestion.answers
-                                        if (gameViewModel.buttonEnabled) { // Verifica si los botones están habilitados
+                                        if (gameViewModel.buttonEnabled) {
                                             gameViewModel.checkAnswer(
                                                 respuestas[i],
                                                 settingsViewModel
                                             )
                                             gameViewModel.modifyShowBackground(true)
-                                            gameViewModel.buttonEnabled =
-                                                false // Deshabilita los botones después de hacer clic
+                                            gameViewModel.buttonEnabled = false
                                         }
                                     },
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .background(
-                                            color = if (gameViewModel.showBackground) {
-                                                if (respuestas[i].isCorrect) Color.Green else Color.Red
-                                            } else {
-                                                Color.Transparent
-                                            }
-                                        )
                                         .padding(vertical = 1.dp),
                                     colors = ButtonDefaults.buttonColors(
-                                        containerColor = (if (settingsViewModel.darkMode && !gameViewModel.showBackground) goldenColor else if (!settingsViewModel.darkMode && !gameViewModel.showBackground) {
-                                            Color.Magenta
-                                        } else {
-                                            if (respuestas[i].isCorrect) Color.Green else Color.Red
-                                        })
-                                    ),
-                                    enabled =
-                                    gameViewModel.buttonEnabled // Habilita o deshabilita el botón según el estado
+                                        if (settingsViewModel.darkMode && !gameViewModel.showBackground) goldenColor
+                                        else if (!settingsViewModel.darkMode && !gameViewModel.showBackground) Color.Magenta
+                                        else if (respuestas[i].isCorrect) Color.Green
+                                        else Color.Red,
+                                        disabledContentColor = if (respuestas[i].isCorrect) Color.Green else Color.Red
+                                    )
                                 ) {
                                     Text(
                                         text = respuestas[i].answerText,
@@ -175,11 +165,16 @@ fun GameScreen(
                                 }
                             }
                             LinearProgressIndicator(
-                                progress = gameViewModel.progress,
+                                progress = gameViewModel.pillarProgress(),
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(16.dp)
                             )
+                            if (gameViewModel.pillarProgress() in 0.0..1.0) {
+                                val formattedProgress = "%.0f".format(gameViewModel.pillarUpTime())
+                                Text(text = "$formattedProgress / ${"%.0f".format(settingsViewModel.sliderValue)}"
+                                , color = if (settingsViewModel.darkMode) goldenColor else Color.White)
+                            }
                         }
                     }
                 }
@@ -229,21 +224,15 @@ fun GameScreen(
                                     .weight(0.4f)
                                     .padding(end = 8.dp)
                                     .fillMaxWidth()
-                                    .background(
-                                        color = if (gameViewModel.showBackground) {
-                                            if (respuestas[i].isCorrect) Color.Green else Color.Red
-                                        } else {
-                                            Color.Transparent
-                                        }
-                                    )
                                     .padding(vertical = 1.dp),
                                 colors = ButtonDefaults.buttonColors(
-                                    containerColor = if (settingsViewModel.darkMode && !gameViewModel.showBackground) goldenColor
+                                    if (settingsViewModel.darkMode && !gameViewModel.showBackground) goldenColor
                                     else if (!settingsViewModel.darkMode && !gameViewModel.showBackground) Color.Magenta
                                     else if (respuestas[i].isCorrect) Color.Green
-                                    else Color.Red
+                                    else Color.Red,
+                                    disabledContentColor = if (respuestas[i].isCorrect) Color.Green else Color.Red
                                 ),
-                                enabled = gameViewModel.buttonEnabled
+
                             ) {
                                 Text(
                                     text = respuestas[i].answerText,
@@ -278,22 +267,16 @@ fun GameScreen(
                                     .weight(0.4f)
                                     .padding(end = 8.dp)
                                     .fillMaxWidth()
-                                    .background(
-                                        color = if (gameViewModel.showBackground) {
-                                            if (respuestas[i].isCorrect) Color.Green else Color.Red
-                                        } else {
-                                            Color.Transparent
-                                        }
-                                    )
                                     .padding(vertical = 1.dp),
                                 colors = ButtonDefaults.buttonColors(
-                                    containerColor = if (settingsViewModel.darkMode && !gameViewModel.showBackground) goldenColor
+                                    if (settingsViewModel.darkMode && !gameViewModel.showBackground) goldenColor
                                     else if (!settingsViewModel.darkMode && !gameViewModel.showBackground) Color.Magenta
                                     else if (respuestas[i].isCorrect) Color.Green
-                                    else Color.Red
+                                    else Color.Red,
+                                    disabledContentColor = if (respuestas[i].isCorrect) Color.Green else Color.Red
                                 ),
-                                enabled = gameViewModel.buttonEnabled
-                            ) {
+
+                                ) {
                                 Text(
                                     text = respuestas[i].answerText,
                                     color = if (settingsViewModel.darkMode) Color.Black else Color.White,
@@ -306,11 +289,16 @@ fun GameScreen(
 
                     // Indicador de progreso lineal
                     LinearProgressIndicator(
-                        progress = gameViewModel.progress,
+                        progress = gameViewModel.pillarProgress(),
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(16.dp)
                     )
+                    if (gameViewModel.pillarProgress() in 0.0..1.0) {
+                        val formattedProgress = "%.0f".format(gameViewModel.pillarUpTime())
+                        Text(text = "$formattedProgress / ${"%.0f".format(settingsViewModel.sliderValue)}"
+                            , color = if (settingsViewModel.darkMode) goldenColor else Color.Black)
+                    }
                 }
             }
         }

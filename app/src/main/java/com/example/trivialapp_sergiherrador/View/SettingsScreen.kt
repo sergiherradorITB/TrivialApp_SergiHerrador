@@ -38,7 +38,7 @@ fun SettingsScreen(
     settingsViewModel: SettingsViewModel,
     windowSize: WindowSizeClass
 ) {
-    val difficulties = listOf("Easy", "Medium", "Hard")
+    val difficulties = listOf("Fácil", "Media", "Díficil")
 
     // Fondo oscuro si está en modo oscuro
     val backgroundColor = settingsViewModel.getGradient()

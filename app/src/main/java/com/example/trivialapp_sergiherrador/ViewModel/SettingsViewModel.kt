@@ -19,7 +19,7 @@ class SettingsViewModel : ViewModel() {
         expanded = valor
     }
 
-    var dificultad: String by mutableStateOf("Medium")
+    var dificultad: String by mutableStateOf("Media")
         private set
 
     fun modifyDifficulty(dificultadCambiada: String) {

@@ -37,7 +37,6 @@ fun ResultScreen(
 ) {
     var textColor = if (settingsViewModel.darkMode) Color.White else Color.Black
     Column(Modifier.background(brush = settingsViewModel.getGradient())) {
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -45,6 +44,7 @@ fun ResultScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            resultViewModel.pillarNota(gameViewModel, settingsViewModel)
             Text(
                 text = "Resultados",
                 fontSize = 24.sp,
@@ -59,6 +59,12 @@ fun ResultScreen(
                 modifier = Modifier.padding(bottom = 8.dp),
                 color = textColor
             )
+            Text(
+                text = "Nota: ${resultViewModel.textoNota()}",
+                fontSize = 20.sp,
+                modifier = Modifier.padding(bottom = 8.dp),
+                color = textColor
+            )
 
             Text(
                 text = "Fallos: ${gameViewModel.fallos}",
@@ -67,6 +73,12 @@ fun ResultScreen(
                 color = textColor
             )
 
+            Text(
+                text = "Dificultad: ${settingsViewModel.dificultad}",
+                fontSize = 20.sp,
+                modifier = Modifier.padding(bottom = 8.dp),
+                color = textColor
+            )
             Button(
                 onClick = { gameViewModel.resetGame(); navController.navigate("MenuScreen") },
                 modifier = Modifier
@@ -82,7 +94,7 @@ fun ResultScreen(
                 )
             }
             ShareButton(
-                text = "Comparte tu resultado \n Tienes ${gameViewModel.aciertos} aciertos\nTienes ${gameViewModel.fallos} fallos",
+                text = "Mi resultado es:\nTienes: ${gameViewModel.aciertos} aciertos\nTienes: ${gameViewModel.fallos} fallos\nTienes ${resultViewModel.textoNota()} nota",
                 context = LocalContext.current,
                 settingsViewModel
             )

@@ -46,8 +46,8 @@ val easyQuestions = listOf(
         Question.Difficulty.EASY,
         listOf(
             Question.Answer("Ajolote", true),
-            Question.Answer("Yo", false),
-            Question.Answer("Dani Santiago", false),
+            Question.Answer("Yo", true),
+            Question.Answer("Dani Santiago", true),
             Question.Answer("Marsupilami", false)
         ),
         false
@@ -227,9 +227,9 @@ val easyQuestions = listOf(
         R.drawable.chika,
         Question.Difficulty.EASY,
         listOf(
-            Question.Answer("Kaguya-sama", false),
+            Question.Answer("Kaguya-sama", true),
             Question.Answer("Fujiwara Chika", false),
-            Question.Answer("Hell Paradise", true),
+            Question.Answer("Hell Paradise", false),
             Question.Answer("Satoshi Kon", false)
         ),
         false

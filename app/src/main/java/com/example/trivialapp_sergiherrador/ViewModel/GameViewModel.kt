@@ -60,7 +60,7 @@ class GameViewModel : ViewModel() {
     fun getCurrentQuestion(settingsViewModel: SettingsViewModel): Question {
         var respuesta: Question
         when (settingsViewModel.dificultad) {
-            "Easy" -> {
+            "Fácil" -> {
                 val allEasyQuestionsAnswered = easyQuestions.all { it.respondida }
 
                 if (allEasyQuestionsAnswered) {
@@ -74,7 +74,7 @@ class GameViewModel : ViewModel() {
                 }
             }
 
-            "Medium" -> {
+            "Media" -> {
                 val allEasyQuestionsAnswered = mediumQuestions.all { it.respondida }
 
                 if (allEasyQuestionsAnswered) {
@@ -88,7 +88,7 @@ class GameViewModel : ViewModel() {
                 }
             }
 
-            "Hard" -> {
+            "Díficil" -> {
                 val allEasyQuestionsAnswered = hardQuestions.all { it.respondida }
 
                 if (allEasyQuestionsAnswered) {
@@ -126,7 +126,15 @@ class GameViewModel : ViewModel() {
         gameStarted = true
     }
 
-    var progress by mutableFloatStateOf(0.0f)
+    private var progress by mutableFloatStateOf(0.0f)
+    fun pillarProgress():Float{
+        return progress
+    }
+
+    private var upTime by mutableFloatStateOf(-1.0f)
+    fun pillarUpTime():Float{
+        return upTime
+    }
 
     // Dentro de la clase GameViewModel
     private var timer: CountDownTimer? = null
@@ -143,13 +151,14 @@ class GameViewModel : ViewModel() {
             override fun onTick(millisUntilFinished: Long) {
                 // Calcula el progreso en función del tiempo restante
                 progress = 1.0f - (millisUntilFinished.toFloat() / timerDuration.toFloat())
+                upTime++ // por cada tick suma 1 al contador de cuanto llevamos
             }
 
              // Se llama cuando el temporizador ha finalizado.
             override fun onFinish() {
                 // Incrementa el contador de fallos y avanza a la siguiente pregunta
                 fallos++
-                moveToNextQuestion(settingsViewModel)
+                moveToNextQuestionTime(settingsViewModel)
             }
         }
 
@@ -169,8 +178,6 @@ class GameViewModel : ViewModel() {
     // Dentro de la clase GameViewModel
     var buttonEnabled by mutableStateOf(true)
 
-    var show by mutableStateOf(false)
-
     fun moveToNextQuestion(settingsViewModel: SettingsViewModel) {
         cancelTimer()
         GlobalScope.launch {
@@ -187,6 +194,32 @@ class GameViewModel : ViewModel() {
                 }
 
                 progress = 0.0f
+                upTime = -1.0f
+
+                currentQuestion = getCurrentQuestion(settingsViewModel)
+
+                startTimer(settingsViewModel)
+                modifyShowBackground(false)
+            }
+        }
+    }
+
+    fun moveToNextQuestionTime(settingsViewModel: SettingsViewModel) {
+        cancelTimer()
+        GlobalScope.launch {
+            withContext(Dispatchers.Main) {
+                buttonEnabled = true // Habilita los botones antes de cargar la nueva pregunta
+                actualRound++
+                isCorrectAnswer = false
+                currentQuestionIndex++
+
+                if (actualRound > settingsViewModel.rondas) {
+                    // El juego ha terminado
+                    gameFinished = true
+                }
+
+                progress = 0.0f
+                upTime = -1.0f
 
                 // Utiliza la lógica existente para obtener la siguiente pregunta según la dificultad actual
                 currentQuestion = getCurrentQuestion(settingsViewModel)
@@ -218,5 +251,6 @@ class GameViewModel : ViewModel() {
         progress = 0f
         gameStarted = false
         allQuestions.forEach { it.respondida = false }
+        upTime = -1.0f
     }
 }
